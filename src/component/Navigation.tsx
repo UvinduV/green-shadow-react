@@ -6,9 +6,10 @@ export function Navigation() {
     return (
         <>
             <header className="header-main">
-                <nav className="px-4 py-3">
-                    <ul className="flex text-white space-x-4">
-                        <Link to="/" className="custom-link border-2">Dashboard</Link>
+                <nav className="flex items-center justify-between px-6 py-4">
+                    <h2 className="text-white text-4xl font-bold">Green Shadow</h2>
+                    <ul className="flex text-white gap-6">
+                        <Link to="/" className="custom-link">Dashboard</Link>
                         <Link to="/field" className="custom-link">Field</Link>
                         <Link to="/crop" className="custom-link">Crop</Link>
                         <Link to="/staff" className="custom-link">Staff</Link>

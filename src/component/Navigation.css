@@ -1,6 +1,6 @@
 .custom-link {
-    @apply px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-500 content-center;
+    @apply px-3 py-2 rounded-md text-sm font-medium shadow-md hover:bg-yellow-500 hover:border-2;
 }
 .header-main{
-    @apply bg-red-600 shadow-lg;
+    @apply bg-green-600 shadow-lg;
 }
