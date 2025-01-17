@@ -8,15 +8,20 @@ import {Staff} from "./Pages/Staff.tsx";
 import {Vehicle} from "./Pages/Vehicle.tsx";
 import {Equipment} from "./Pages/Equipment.tsx";
 import {MonitoringLog} from "./Pages/MonitoringLog.tsx";
+import {Login} from "./Pages/Login.tsx";
 
 function App() {
     const routes= createBrowserRouter([
+        {
+            path:'/',
+            element:<Login/>
+        },
 
         {
             path:'',
             element:<RootLayout/>,
             children:[
-                {path:'/',element:<Dashboard/>},
+                {path:'/dashboard',element:<Dashboard/>},
                 {path:'/crop',element:<Crop/>},
                 {path:'/field',element:<Field/>},
                 {path:'/staff',element:<Staff/>},
