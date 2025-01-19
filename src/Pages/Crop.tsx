@@ -36,7 +36,9 @@ export function Crop() {
                 <table className="w-full text-sm text-left rtl:text-right text-black">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                        <th scope="col" className="px-6 py-3"></th>
+                        <th scope="col" className="px-6 py-3">
+                            Id
+                        </th>
                         <th scope="col" className="px-6 py-3">
                             Common Name
                         </th>
@@ -60,6 +62,7 @@ export function Crop() {
                     <tbody className="bg-slate-100 cursor-pointer">
                     <tr className="hover:bg-slate-200 border-b border-gray-950 font-bold">
                         <td className="px-6 py-4">
+                            1
                             {/*<img src={field} alt="" className="w-24 h-24 rounded-full" />*/}
                         </td>
                         <td className="px-6 py-4">Crop 1</td>
@@ -84,6 +87,7 @@ export function Crop() {
                     </tr>
                     <tr className="hover:bg-slate-200 border-b border-gray-950 font-bold">
                         <td className="px-6 py-4">
+                            2
                             {/*<img src={field} alt="" className="w-24 h-24 rounded-full" />*/}
                         </td>
                         <td className="px-6 py-4">Crop 2</td>
@@ -108,6 +112,7 @@ export function Crop() {
                     </tr>
                     <tr className="hover:bg-slate-200 border-b border-gray-950 font-bold">
                         <td className="px-6 py-4">
+                            3
                             {/*<img src={field} alt="" className="w-24 h-24 rounded-full" />*/}
                         </td>
                         <td className="px-6 py-4">Crop 3</td>
