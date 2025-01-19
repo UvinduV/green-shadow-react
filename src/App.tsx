@@ -13,7 +13,7 @@ import {Login} from "./Pages/Login.tsx";
 function App() {
     const routes= createBrowserRouter([
         {
-            path:'/',
+            path:'/,',
             element:<Login/>
         },
 
@@ -27,7 +27,8 @@ function App() {
                 {path:'/staff',element:<Staff/>},
                 {path:'/vehicle',element:<Vehicle/>},
                 {path:'/equipment',element:<Equipment/>},
-                {path:'/logs',element:<MonitoringLog/>}
+                {path:'/logs',element:<MonitoringLog/>},
+                {path:'/login',element:<Login/>},
             ]
         }
     ])
@@ -35,7 +36,6 @@ function App() {
   return (
     <>
         <RouterProvider router={routes}></RouterProvider>
-        <h1>Green shadow</h1>
     </>
   )
 }
