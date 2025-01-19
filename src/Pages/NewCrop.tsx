@@ -10,7 +10,6 @@ export function NewCrop() {
     const handleCloseModal = () => {
         dispatch(closeModal());
     };
-
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         console.log("Crop added!");
@@ -23,24 +22,24 @@ export function NewCrop() {
                 <h2>Add New Crop</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
-                        <label>Crop Image</label>
-                        <input type="file" accept="image/*" />
-                    </div>
-                    <div className="mb-4">
                         <label>Common Name</label>
-                        <input type="text" required />
+                        <input type="text" required/>
                     </div>
                     <div className="mb-4">
                         <label>Scientific Name</label>
-                        <input type="text" required />
+                        <input type="text" required/>
+                    </div>
+                    <div className="mb-4">
+                        <label>Crop Image</label>
+                        <input type="file" accept="image/*"/>
                     </div>
                     <div className="mb-4">
                         <label>Category</label>
-                        <input type="text" required />
+                        <input type="text" required/>
                     </div>
                     <div className="mb-4">
                         <label>Season</label>
-                        <input type="text" required />
+                        <input type="text" required/>
                     </div>
                     <div className="mb-4">
                         <label>Field Details</label>
@@ -48,7 +47,6 @@ export function NewCrop() {
                     </div>
                     <div className="flex justify-end">
                         <button>Save Crop</button>
-                        <button>Update Crop</button>
                     </div>
                 </form>
             </Modal>
