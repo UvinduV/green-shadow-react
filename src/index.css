@@ -8,7 +8,7 @@
     font-family: sans-serif;
   }
   body{
-    background: #16a085;
+    background-image: url("./assets/img/welcome.png");
   }
   input {
     @apply w-full px-4 py-2 border border-gray-300 rounded-md mb-1 focus:outline-none focus:ring-2 focus:ring-blue-500;
