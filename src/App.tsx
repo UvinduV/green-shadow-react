@@ -13,10 +13,9 @@ import {Login} from "./Pages/Login.tsx";
 function App() {
     const routes= createBrowserRouter([
         {
-            path:'/,',
+            path:'/',
             element:<Login/>
         },
-
         {
             path:'',
             element:<RootLayout/>,
@@ -27,8 +26,7 @@ function App() {
                 {path:'/staff',element:<Staff/>},
                 {path:'/vehicle',element:<Vehicle/>},
                 {path:'/equipment',element:<Equipment/>},
-                {path:'/logs',element:<MonitoringLog/>},
-                {path:'/login',element:<Login/>},
+                {path:'/logs',element:<MonitoringLog/>}
             ]
         }
     ])

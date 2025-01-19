@@ -17,7 +17,7 @@ export function Navigation() {
                         <Link to="/equipment" className="custom-link">Equipment</Link>
                         <Link to="/logs" className="custom-link">Logs</Link>
 
-                        <Link to="/login" className="px-4 py-2 bg-red-500 text-sm font-medium shadow-xl">Sign Out</Link>
+                        {/*<Link to="/" className="px-4 py-2 bg-red-500 text-sm font-medium shadow-xl">Sign Out</Link>*/}
                     </div>
                     {/*<button className="ml-auto flex items-center justify-center px-4 h-10 w-14 rounded-md bg-red-500 text-white text-sm font-medium shadow-xl">*/}
                     {/*    sign out*/}
