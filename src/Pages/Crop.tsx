@@ -10,15 +10,6 @@ export function Crop() {
         dispatch(openModal());
     };
 
-    // const handleCloseModal = () => {
-    //     dispatch(closeModal());
-    // };
-    //
-    // const handleSubmit = (e: React.FormEvent) => {
-    //     e.preventDefault();
-    //     console.log("Crop added!");
-    //     dispatch(closeModal());
-    // };
      return (
         <>
             <h1>Crop</h1>
@@ -29,9 +20,6 @@ export function Crop() {
             {/* Crop Table */}
             <div
                 className="relative overflow-x-auto w-5/6 shadow-md sm:rounded-lg mt-6 ml-28"
-                // initial={{ opacity: 0 }}
-                // animate={{ opacity: 1 }}
-                // transition={{ duration: 0.5, delay: 0.4, ease: easeIn }}
             >
                 <table className="w-full text-sm text-left rtl:text-right text-black">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
@@ -81,7 +69,7 @@ export function Crop() {
                                 href="#"
                                 className="font-medium text-red-600 hover:underline ml-2"
                             >
-                                Remove
+                                DELETE
                             </a>
                         </td>
                     </tr>
@@ -106,7 +94,7 @@ export function Crop() {
                                 href="#"
                                 className="font-medium text-red-600 hover:underline ml-2"
                             >
-                                Remove
+                                DELETE
                             </a>
                         </td>
                     </tr>
@@ -131,7 +119,7 @@ export function Crop() {
                                 href="#"
                                 className="font-medium text-red-600 hover:underline ml-2"
                             >
-                                Remove
+                                DELETE
                             </a>
                         </td>
                     </tr>
