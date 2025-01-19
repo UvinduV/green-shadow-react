@@ -31,7 +31,7 @@ export function NewCrop() {
                     </div>
                     <div className="mb-4">
                         <label>Crop Image</label>
-                        <input type="file" accept="image/*"/>
+                        <input type="file" accept=""/>
                     </div>
                     <div className="mb-4">
                         <label>Category</label>

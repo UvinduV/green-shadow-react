@@ -52,12 +52,14 @@ export function Field() {
                                 className="font-medium text-blue-600 hover:underline"
                             >
                                 Edit
+
                             </a>
                             <a
                                 href="#"
                                 className="font-medium text-red-600 hover:underline ml-2"
                             >
-                                DELETE
+                                Delete
+
                             </a>
                         </td>
                     </tr>
@@ -81,7 +83,7 @@ export function Field() {
                                 href="#"
                                 className="font-medium text-red-600 hover:underline ml-2"
                             >
-                                DELETE
+                                Delete
                             </a>
                         </td>
                     </tr>
@@ -105,7 +107,7 @@ export function Field() {
                                 href="#"
                                 className="font-medium text-red-600 hover:underline ml-2"
                             >
-                                DELETE
+                                Delete
                             </a>
                         </td>
                     </tr>
