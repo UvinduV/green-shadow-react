@@ -1,5 +1,3 @@
-import {NewCrop} from "./NewCrop.tsx";
-
 export function Vehicle() {
     return (
         <>
@@ -8,7 +6,7 @@ export function Vehicle() {
                 <button>New Vehicle</button>
             </div>
 
-            {/* Crop Table */}
+            {/* Vehicle Table */}
             <div
                 className="relative overflow-x-auto w-5/6 shadow-md sm:rounded-lg mt-6 ml-28"
             >
@@ -107,7 +105,7 @@ export function Vehicle() {
                     </tr>
                     </tbody>
                 </table>
-                <NewCrop/>
+
             </div>
         </>
     )
