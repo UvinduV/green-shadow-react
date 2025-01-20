@@ -1,8 +1,12 @@
-import {Link} from "react-router";
+import {Link, useNavigate} from "react-router";
 import "./Navigation.css";
 
 
 export function Navigation() {
+    function handleNavigate() {
+        navigate("/")
+    }
+    const navigate = useNavigate();
     return (
         <>
             <header className="header-main">
@@ -17,12 +21,11 @@ export function Navigation() {
                         <Link to="/equipment" className="custom-link">Equipment</Link>
                         <Link to="/logs" className="custom-link">Logs</Link>
 
-                        {/*<Link to="/" className="px-4 py-2 bg-red-500 text-sm font-medium shadow-xl">Sign Out</Link>*/}
                     </div>
-                    {/*<button className="ml-auto flex items-center justify-center px-4 h-10 w-14 rounded-md bg-red-500 text-white text-sm font-medium shadow-xl">*/}
-                    {/*    sign out*/}
-                    {/*</button>*/}
 
+                    <button onClick={handleNavigate} className="bg-red-500 shadow-xl rounded-bl-3xl rounded-tr-3xl hover:bg-gray-600">
+                        Sign Out
+                    </button>
 
                 </nav>
 

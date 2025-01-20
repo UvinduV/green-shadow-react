@@ -1,7 +1,9 @@
 export function Dashboard() {
+
     return (
         <>
-            <p>dashboard</p>
+            <h1>dashboard</h1>
         </>
     )
+
 }
