@@ -9,8 +9,6 @@ export function Login() {
     return (
         <>
             {/*<h1>Login</h1>*/}
-
-            {/*<button onClick={goDashboard}>Go to Dashboard</button>*/}
             <div>
                 {/*<HeaderImage/>*/}
                 <form
@@ -50,7 +48,7 @@ export function Login() {
                     <div className="mt-8">
                         {/*<AuthButton>Login</AuthButton>*/}
                         {/*<Togglepage onClick={handleToggle}>Register Here</Togglepage>*/}
-                        <button onClick={goDashboard}>Go to Dashboard</button>
+                        <button onClick={goDashboard}>Login</button>
                     </div>
                 </form>
             </div>
