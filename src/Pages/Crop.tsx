@@ -5,7 +5,7 @@ import {Modal} from "../component/Model.tsx";
 import React, {useState} from "react";
 import {CropModel} from "../model/CropModel.ts";
 import { Trash2 } from "react-feather";
-import {addCrop} from "../reducers/CropSlice.ts";
+import {addCrop, updateCrop} from "../reducers/CropSlice.ts";
 
 export function Crop() {
 
@@ -34,10 +34,12 @@ export function Crop() {
         resetForm();
     }
     const handleUpdate = () => {
-        if (!commonName || !scientificName || !cropImage || !category || !season || !fieldName) {
+        if (!commonName || !scientificName) {
             alert("All fields are required!")
             return
         }
+        const crop = new CropModel(commonName,scientificName,cropImage,category,season,fieldName);
+        dispatch(updateCrop(crop));
         resetForm();
     }
 
