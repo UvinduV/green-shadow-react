@@ -5,7 +5,7 @@ import {Modal} from "../component/Model.tsx";
 import React, {useState} from "react";
 import {CropModel} from "../model/CropModel.ts";
 import { Trash2 } from "react-feather";
-import {addCrop, updateCrop} from "../reducers/CropSlice.ts";
+import {addCrop, deleteCrop, updateCrop} from "../reducers/CropSlice.ts";
 
 export function Crop() {
 
@@ -45,6 +45,7 @@ export function Crop() {
 
     const handleDelete = (commonName: string) => {
         if (window.confirm("Are you sure you want to delete this customer?")) {
+            dispatch(deleteCrop(commonName));
             console.log("crop deleted!", commonName);
         }
     }

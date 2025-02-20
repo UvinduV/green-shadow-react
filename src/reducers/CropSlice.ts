@@ -24,8 +24,11 @@ const CropSlice = createSlice({
                     : crop
             );
         },
+        deleteCrop: (state, action) => {
+            return state.filter(crop => crop.commonName !== action.payload.commonName);
+        }
     }
 })
 
-export const {addCrop,updateCrop} = CropSlice.actions;
+export const {addCrop,updateCrop,deleteCrop} = CropSlice.actions;
 export default CropSlice.reducer;
