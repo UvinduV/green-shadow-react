@@ -24,7 +24,7 @@ export function Field() {
 
     useEffect(() => {
         dispatch(getAllFields());
-    }, [dispatch]);
+    }, [dispatch,fields]);
 
     const handleAdd = () => {
         if (!fieldName || !location) {
@@ -140,12 +140,13 @@ export function Field() {
                     </tr>
                     </thead>
                     <tbody className="bg-slate-100 cursor-pointer">
-                    {fields.filter(
-                        (field: FieldModel, index, self) =>
-                            index ===
-                            self.findIndex(
-                                (f: FieldModel) => f.fieldName === field.fieldName)
-                    ).map((field: FieldModel) => (
+                    {fields
+                        .filter((field: FieldModel) => field && field.fieldName)
+                        .filter(
+                            (field: FieldModel, index, self) =>
+                                index === self.findIndex((f: FieldModel) => f.fieldName === field.fieldName)
+                        )
+                        .map((field: FieldModel) => (
                         <tr
                             key={field.fieldName}
                             // onClick={() => handleEdit(field)}

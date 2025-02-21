@@ -80,6 +80,18 @@ export const deletedField = createAsyncThunk(
     }
 );
 
+export const getFieldNames = createAsyncThunk(
+    "field/getFieldNames",
+    async () => {
+        try {
+            const response = await api.get("/Field/fieldNames");
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+);
+
 
 const FieldSlice = createSlice({
     name:"field",
@@ -154,6 +166,16 @@ const FieldSlice = createSlice({
                 console.error("Failed to delete field", action.payload);
             })
             .addCase(deletedField.pending, (state, action) => {
+                console.error("Pending");
+            });
+        builder
+            .addCase(getFieldNames.fulfilled, (state, action) => {
+                return action.payload;
+            })
+            .addCase(getFieldNames.rejected, (state, action) => {
+                console.error("Failed to load field names", action.payload);
+            })
+            .addCase(getFieldNames.pending, (state, action) => {
                 console.error("Pending");
             });
     }

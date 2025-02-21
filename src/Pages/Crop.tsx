@@ -1,17 +1,20 @@
 import {useDispatch, useSelector} from "react-redux";
 import {closeModal, openModal} from "../reducers/ModelSlice.ts";
 import {Modal} from "../component/Model.tsx";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {CropModel} from "../model/CropModel.ts";
 import { Trash2 } from "react-feather";
-import {addCrop, deleteCrop, updateCrop} from "../reducers/CropSlice.ts";
+import {addCrop, deleteCrop, getAllCrops, saveCrop, updateCrop} from "../reducers/CropSlice.ts";
+import {AppDispatch} from "../store/Store.ts";
+import {getFieldNames} from "../reducers/FieldSlice.ts";
+import {FieldModel} from "../model/FieldModel.ts";
 
 export function Crop() {
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const isModalOpen = useSelector((state) => state.modal.isModalOpen);
     const crops = useSelector((state) => state.crop);
-
+    const fieldNames = useSelector((state) => state.field);
 
     const [commonName, setCommonName] = useState("");
     const [scientificName, setScientificName] = useState("");
@@ -20,7 +23,12 @@ export function Crop() {
     const [season, setSeason] = useState("");
     const [fieldName, setFieldName] = useState("");
 
-    const [isEditing, setIsEditing] = useState(false)
+    const [isEditing, setIsEditing] = useState(false);
+
+    useEffect(() => {
+        dispatch(getAllCrops());
+        dispatch(getFieldNames());
+    }, [dispatch, fieldNames, crops]);
 
     const handleAdd = () => {
         if (!commonName || !scientificName) {
@@ -28,7 +36,8 @@ export function Crop() {
             return
         }
         const newCrop = new CropModel(commonName,scientificName,cropImage,category,season,fieldName);
-        dispatch(addCrop(newCrop));
+        //dispatch(addCrop(newCrop));
+        dispatch(saveCrop(newCrop));
         alert("Crop added successfully!")
         resetForm();
     }
@@ -210,8 +219,11 @@ export function Crop() {
                             id=""
                         >
                             <option value="">Select Field</option>
-                            <option value="field1">Field1</option>
-                            <option value="field2">Field2</option>
+                            {fieldNames.map((field: FieldModel, index) => (
+                                <option key={index} value={field}>
+                                    {field}
+                                </option>
+                            ))}
 
                         </select>
                     </div>
