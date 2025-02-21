@@ -4,11 +4,11 @@ import {closeModal, openModal} from "../reducers/ModelSlice.ts";
 import {useDispatch, useSelector} from "react-redux";
 import {Trash2} from "react-feather";
 import {FieldModel} from "../model/FieldModel.ts";
-import {addField, deleteField, getAllFields, saveField, updateField} from "../reducers/FieldSlice.ts";
+import {deletedField, getAllFields, saveField, updatedField} from "../reducers/FieldSlice.ts";
 import {AppDispatch} from "../store/Store.ts";
 
 export function Field() {
-    const url = "http://localhost:3002";
+    const url = "http://localhost:3002/";
 
     const dispatch = useDispatch<AppDispatch>();
     const isModalOpen = useSelector((state) => state.modal.isModalOpen);
@@ -46,17 +46,24 @@ export function Field() {
         }
 
         const field = new FieldModel(fieldName,location,extentSize,fieldImage1,fieldImage2);
-        dispatch(updateField(field));
+        //dispatch(updateField(field));
+        dispatch(updatedField({ fieldName: field.fieldName, field }));
         alert("field updated successfully!")
-
         resetForm();
         dispatch(closeModal());
+        dispatch(getAllFields());
+
+        // resetForm();
+        // dispatch(closeModal());
+
 
     }
     const handleDelete=(fieldName: string)=>{
         if (window.confirm("Are you sure you want to delete this field?")) {
-            dispatch(deleteField(fieldName));
+            //dispatch(deleteField(fieldName));
+            dispatch(deletedField(fieldName));
             console.log("field deleted!", fieldName);
+            dispatch(getAllFields());
             setIsEditing(false);
         }
 
@@ -146,7 +153,7 @@ export function Field() {
                         >
                             {/*<td className="px-4 py-2">{field.id}</td>*/}
                             <td className="px-4 py-2" onClick={() => handleEdit(field)}>{field.fieldName}</td>
-                            <td className="px-4 py-2" >
+                            <td className="px-4 py-2">
                                 <img
                                     src={`${url}${field.fieldImage1}`}
                                     alt={field.fieldName}

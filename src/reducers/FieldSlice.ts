@@ -43,6 +43,43 @@ export const getAllFields = createAsyncThunk(
         console.log(error);
     }
 });
+export const updatedField = createAsyncThunk(
+    "field/updatedField",
+    async (payload: { fieldName: string; field: FieldModel }) => {
+        try {
+            const formData = new FormData();
+
+            formData.append("fieldName", payload.field.fieldName);
+            formData.append("location", payload.field.location);
+            formData.append("extentSize", String(payload.field.extentSize));
+            if (payload.field.fieldImage1 instanceof File) {
+                formData.append("fieldImage1", payload.field.fieldImage1);
+            }
+            if (payload.field.fieldImage2 instanceof File) {
+                formData.append("fieldImage2", payload.field.fieldImage2);
+            }
+            const response = await api.put(
+                `/Field/update/${payload.fieldName}`,
+                formData
+            );
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+);
+export const deletedField = createAsyncThunk(
+    "field/deletedField",
+    async (fieldName: string) => {
+        try {
+            const response = await api.delete(`/Field/delete/${fieldName}`);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+);
+
 
 const FieldSlice = createSlice({
     name:"field",
@@ -90,6 +127,33 @@ const FieldSlice = createSlice({
                 console.error("Failed to load Field data", action.payload);
             })
             .addCase(getAllFields.pending, (state, action) => {
+                console.error("Pending");
+            });
+        builder
+            .addCase(updatedField.fulfilled, (state, action) => {
+                const index = state.findIndex(
+                    (field) => field.fieldName === action.payload.fieldName
+                );
+                if (index !== -1) {
+                    state[index] = action.payload;
+                }
+            })
+            .addCase(updatedField.rejected, (state, action) => {
+                console.error("Failed to update field", action.payload);
+            })
+            .addCase(updatedField.pending, (state, action) => {
+                console.error("Pending");
+            });
+        builder
+            .addCase(deletedField.fulfilled, (state, action) => {
+                return state.filter(
+                    (field: FieldModel) => field.fieldName !== action.payload.fieldName
+                );
+            })
+            .addCase(deletedField.rejected, (state, action) => {
+                console.error("Failed to delete field", action.payload);
+            })
+            .addCase(deletedField.pending, (state, action) => {
                 console.error("Pending");
             });
     }
