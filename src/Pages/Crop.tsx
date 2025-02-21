@@ -44,7 +44,7 @@ export function Crop() {
         dispatch(closeModal());
     }
     const handleDelete = (commonName: string) => {
-        if (window.confirm("Are you sure you want to delete this customer?")) {
+        if (window.confirm("Are you sure you want to delete this crop?")) {
             dispatch(deleteCrop(commonName));
             console.log("crop deleted!", commonName);
         }

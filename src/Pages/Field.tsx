@@ -4,10 +4,13 @@ import {closeModal, openModal} from "../reducers/ModelSlice.ts";
 import {useDispatch, useSelector} from "react-redux";
 import {Trash2} from "react-feather";
 import {FieldModel} from "../model/FieldModel.ts";
-import {addField, updateField} from "../reducers/FieldSlice.ts";
+import {addField, deleteField, saveField, updateField} from "../reducers/FieldSlice.ts";
+import {AppDispatch} from "../store/Store.ts";
 
 export function Field() {
-    const dispatch = useDispatch();
+    const url = "http://localhost:3002";
+
+    const dispatch = useDispatch<AppDispatch>();
     const isModalOpen = useSelector((state) => state.modal.isModalOpen);
     const fields = useSelector((state) => state.field);
 
@@ -25,7 +28,8 @@ export function Field() {
             return
         }
         const newField = new FieldModel(fieldName,location,extentSize,fieldImage1,fieldImage2);
-        dispatch(addField(newField));
+        //dispatch(addField(newField));
+        dispatch(saveField(newField));
         alert("Field added successfully!")
         resetForm();
     }
@@ -44,7 +48,11 @@ export function Field() {
 
     }
     const handleDelete=(fieldName: string)=>{
-        console.log(fieldName);
+        if (window.confirm("Are you sure you want to delete this field?")) {
+            dispatch(deleteField(fieldName));
+            console.log("field deleted!", fieldName);
+            setIsEditing(false);
+        }
 
     }
     const handleEdit=(field: FieldModel)=>{
@@ -69,6 +77,7 @@ export function Field() {
 
 
     const handleAddField = () => {
+        setIsEditing(false);
         dispatch(openModal());
     };
     const handleCloseModal = () => {
@@ -121,27 +130,27 @@ export function Field() {
                     {fields.map((field: FieldModel) => (
                         <tr
                             key={field.fieldName}
-                            onClick={() => handleEdit(field)}
+                            // onClick={() => handleEdit(field)}
                             className="hover:cursor-pointer hover:bg-yellow-500 hover:text-white"
                         >
-                            <td className="px-4 py-2">{field.id}</td>
-                            <td className="px-4 py-2">{field.fieldName}</td>
-                            <td className="px-4 py-2">
+                            {/*<td className="px-4 py-2">{field.id}</td>*/}
+                            <td className="px-4 py-2" onClick={() => handleEdit(field)}>{field.fieldName}</td>
+                            <td className="px-4 py-2" >
                                 <img
-                                    src={`${field.fieldImage1}`}
+                                    src={`${url}${field.fieldImage1}`}
                                     alt={field.fieldName}
                                     className="w-24 h-24 rounded-full"
                                 />
                             </td>
-                            <td className="px-4 py-2">
+                            <td className="px-4 py-2" onClick={() => handleEdit(field)}>
                                 <img
-                                    src={`${field.fieldImage2}`}
+                                    src={`${url}${field.fieldImage2}`}
                                     alt={field.fieldName}
                                     className="w-24 h-24 rounded-full"
                                 />
                             </td>
-                            <td className="px-4 py-2">{field.location}</td>
-                            <td className="px-4 py-2">{field.extentSize}</td>
+                            <td className="px-4 py-2" onClick={() => handleEdit(field)}>{field.location}</td>
+                            <td className="px-4 py-2" onClick={() => handleEdit(field)}>{field.extentSize}</td>
                             <td className="border px-4 py-2 text-center">
                                 <button
                                     onClick={() => handleDelete(field.fieldName)}

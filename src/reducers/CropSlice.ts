@@ -25,7 +25,7 @@ const CropSlice = createSlice({
             );
         },
         deleteCrop: (state, action) => {
-            return state.filter(crop => crop.commonName !== action.payload.commonName);
+            return state.filter(crop => crop.commonName !== action.payload);
         }
     }
 })
