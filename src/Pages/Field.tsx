@@ -1,10 +1,10 @@
 import {Modal} from "../component/Model.tsx";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {closeModal, openModal} from "../reducers/ModelSlice.ts";
 import {useDispatch, useSelector} from "react-redux";
 import {Trash2} from "react-feather";
 import {FieldModel} from "../model/FieldModel.ts";
-import {addField, deleteField, saveField, updateField} from "../reducers/FieldSlice.ts";
+import {addField, deleteField, getAllFields, saveField, updateField} from "../reducers/FieldSlice.ts";
 import {AppDispatch} from "../store/Store.ts";
 
 export function Field() {
@@ -22,6 +22,10 @@ export function Field() {
 
     const [isEditing, setIsEditing] = useState(false);
 
+    useEffect(() => {
+        dispatch(getAllFields());
+    }, [dispatch]);
+
     const handleAdd = () => {
         if (!fieldName || !location) {
             alert("All fields are required!")
@@ -31,6 +35,8 @@ export function Field() {
         //dispatch(addField(newField));
         dispatch(saveField(newField));
         alert("Field added successfully!")
+
+        dispatch(getAllFields());
         resetForm();
     }
     const handleUpdate=()=>{
@@ -103,9 +109,9 @@ export function Field() {
                 <table className="w-full text-sm text-left rtl:text-right text-black">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                        <th scope="col" className="px-6 py-3">
-                            Field Id
-                        </th>
+                        {/*<th scope="col" className="px-6 py-3">*/}
+                        {/*    Field Id*/}
+                        {/*</th>*/}
                         <th scope="col" className="px-6 py-3">
                             Field Name
                         </th>
@@ -127,7 +133,12 @@ export function Field() {
                     </tr>
                     </thead>
                     <tbody className="bg-slate-100 cursor-pointer">
-                    {fields.map((field: FieldModel) => (
+                    {fields.filter(
+                        (field: FieldModel, index, self) =>
+                            index ===
+                            self.findIndex(
+                                (f: FieldModel) => f.fieldName === field.fieldName)
+                    ).map((field: FieldModel) => (
                         <tr
                             key={field.fieldName}
                             // onClick={() => handleEdit(field)}

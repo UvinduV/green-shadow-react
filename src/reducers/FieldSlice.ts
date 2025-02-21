@@ -34,6 +34,15 @@ export const saveField = createAsyncThunk(
         }
     }
 );
+export const getAllFields = createAsyncThunk(
+    "field/getAllFields", async () => {
+    try {
+        const response = await api.get("/Field/view");
+        return response.data;
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 const FieldSlice = createSlice({
     name:"field",
@@ -69,6 +78,18 @@ const FieldSlice = createSlice({
                 console.error("Failed to save field!:", action.payload);
             })
             .addCase(saveField.pending, (state, action) => {
+                console.error("Pending");
+            });
+        builder
+            .addCase(getAllFields.fulfilled, (state, action) => {
+                action.payload.map((field: FieldModel) => {
+                    state.push(field);
+                });
+            })
+            .addCase(getAllFields.rejected, (state, action) => {
+                console.error("Failed to load Field data", action.payload);
+            })
+            .addCase(getAllFields.pending, (state, action) => {
                 console.error("Pending");
             });
     }
