@@ -1,11 +1,11 @@
 export class FieldModel{
     fieldName: string;
     location: string;
-    extentSize: number;
+    extentSize: string;
     fieldImage1: File| null;
     fieldImage2: File | null;
 
-    constructor(fieldName: string, location: string, extentSize: number, fieldImage1: File | null, fieldImage2: File | null) {
+    constructor(fieldName: string, location: string, extentSize: string, fieldImage1: File | null, fieldImage2: File | null) {
         this.fieldName = fieldName;
         this.location = location;
         this.extentSize = extentSize;

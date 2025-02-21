@@ -1,6 +1,7 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import ModelSlice from "../reducers/ModelSlice.ts";
 import CropSlice from "../reducers/CropSlice.ts";
+import FieldSlice from "../reducers/FieldSlice.ts";
 
 // export const store = configureStore({
 //     reducer: {
@@ -10,7 +11,8 @@ import CropSlice from "../reducers/CropSlice.ts";
 
 const rootReducer = combineReducers({
     modal: ModelSlice,
-    crop: CropSlice
+    crop: CropSlice,
+    field: FieldSlice,
 })
 
 export const store = configureStore({

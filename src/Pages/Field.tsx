@@ -4,10 +4,12 @@ import {closeModal, openModal} from "../reducers/ModelSlice.ts";
 import {useDispatch, useSelector} from "react-redux";
 import {Trash2} from "react-feather";
 import {FieldModel} from "../model/FieldModel.ts";
+import {addField} from "../reducers/FieldSlice.ts";
 
 export function Field() {
     const dispatch = useDispatch();
     const isModalOpen = useSelector((state) => state.modal.isModalOpen);
+    const fields = useSelector((state) => state.field);
 
     const [fieldName, setFieldName] = useState("");
     const [location, setLocation] = useState("");
@@ -16,6 +18,28 @@ export function Field() {
     const [fieldImage2, setFieldImage2] = useState<File | null>(null);
 
     const [isEditing, setIsEditing] = useState(false);
+
+    const handleAdd = () => {
+        if (!fieldName || !location) {
+            alert("All fields are required!")
+            return
+        }
+       // const newCrop = new CropModel(commonName,scientificName,cropImage,category,season,fieldName);
+        const newField = new FieldModel(fieldName,location,extentSize,fieldImage1,fieldImage2);
+        dispatch(addField(newField));
+        alert("Field added successfully!")
+        // resetForm();
+    }
+    const handleUpdate=()=>{
+
+    }
+    const handleDelete=(fieldName: string)=>{
+        console.log(fieldName);
+
+    }
+    const handleEdit=()=>{
+
+    }
 
 
     const handleAddField = () => {
@@ -165,7 +189,7 @@ export function Field() {
                         )}
                         {isEditing && (
                             <button
-                                onClick={resetForm}
+                                // onClick={resetForm}
                                 className="bg-gray-500 text-white p-2 rounded"
                             >
                                 Cancel
