@@ -4,7 +4,7 @@ import {closeModal, openModal} from "../reducers/ModelSlice.ts";
 import {useDispatch, useSelector} from "react-redux";
 import {Trash2} from "react-feather";
 import {FieldModel} from "../model/FieldModel.ts";
-import {addField} from "../reducers/FieldSlice.ts";
+import {addField, updateField} from "../reducers/FieldSlice.ts";
 
 export function Field() {
     const dispatch = useDispatch();
@@ -24,21 +24,47 @@ export function Field() {
             alert("All fields are required!")
             return
         }
-       // const newCrop = new CropModel(commonName,scientificName,cropImage,category,season,fieldName);
         const newField = new FieldModel(fieldName,location,extentSize,fieldImage1,fieldImage2);
         dispatch(addField(newField));
         alert("Field added successfully!")
-        // resetForm();
+        resetForm();
     }
     const handleUpdate=()=>{
+        if (!fieldName || !location) {
+            alert("All fields are required!")
+            return
+        }
+
+        const field = new FieldModel(fieldName,location,extentSize,fieldImage1,fieldImage2);
+        dispatch(updateField(field));
+        alert("field updated successfully!")
+
+        resetForm();
+        dispatch(closeModal());
 
     }
     const handleDelete=(fieldName: string)=>{
         console.log(fieldName);
 
     }
-    const handleEdit=()=>{
+    const handleEdit=(field: FieldModel)=>{
+        dispatch(openModal());
 
+        setFieldName(field.fieldName);
+        setLocation(field.location);
+        setExtentSize(field.extentSize);
+        setFieldImage1(field.fieldImage1);
+        setFieldImage2(field.fieldImage2);
+        setIsEditing(true);
+
+    }
+    const resetForm = () => {
+        setFieldName("")
+        setLocation("")
+        setExtentSize("")
+        setFieldImage1(null)
+        setFieldImage2(null)
+        setIsEditing(false)
     }
 
 
@@ -189,7 +215,7 @@ export function Field() {
                         )}
                         {isEditing && (
                             <button
-                                // onClick={resetForm}
+                                onClick={resetForm}
                                 className="bg-gray-500 text-white p-2 rounded"
                             >
                                 Cancel

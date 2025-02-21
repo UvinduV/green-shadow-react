@@ -54,7 +54,6 @@ export function Crop() {
 
         setCommonName(crop.commonName);
         setScientificName(crop.scientificName);
-        setFieldName(crop.fieldName);
         setCropImage(crop.cropImage);
         setCategory(crop.category);
         setSeason(crop.season);
