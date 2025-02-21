@@ -1,6 +1,5 @@
 import {useDispatch, useSelector} from "react-redux";
 import {closeModal, openModal} from "../reducers/ModelSlice.ts";
-// import {NewCrop} from "./NewCrop.tsx";
 import {Modal} from "../component/Model.tsx";
 import React, {useState} from "react";
 import {CropModel} from "../model/CropModel.ts";
@@ -40,9 +39,10 @@ export function Crop() {
         }
         const crop = new CropModel(commonName,scientificName,cropImage,category,season,fieldName);
         dispatch(updateCrop(crop));
+        alert("Crop updated successfully!")
         resetForm();
+        dispatch(closeModal());
     }
-
     const handleDelete = (commonName: string) => {
         if (window.confirm("Are you sure you want to delete this customer?")) {
             dispatch(deleteCrop(commonName));
@@ -75,7 +75,6 @@ export function Crop() {
     const handleAddCrop = () => {
         dispatch(openModal());
     };
-
     const handleCloseModal = () => {
         dispatch(closeModal());
     };
@@ -127,20 +126,20 @@ export function Crop() {
                         <tr
                             key={crop.commonName}
                             onClick={() => handleEdit(crop)}
-                            className="hover:cursor-pointer hover:bg-slate-600 hover:text-white"
+                            className="hover:cursor-pointer hover:bg-yellow-500 hover:text-white"
                         >
-                            <td className="px-6 py-4">{crop.commonName}</td>
-                            <td className="px-6 py-4">{crop.scientificName}</td>
-                            <td className="px-6 py-4">
+                            <td className="px-4 py-2">{crop.commonName}</td>
+                            <td className="px-4 py-2">{crop.scientificName}</td>
+                            <td className="px-4 py-2">
                                 <img
                                     src={`${crop.cropImage}`}
                                     alt={crop.commonName}
                                     className="w-24 h-24 rounded-full"
                                 />
                             </td>
-                            <td className="px-6 py-4">{crop.category}</td>
-                            <td className="px-6 py-4">{crop.season}</td>
-                            <td className="px-6 py-4">{crop.fieldName}</td>
+                            <td className="px-4 py-2">{crop.category}</td>
+                            <td className="px-4 py-2">{crop.season}</td>
+                            <td className="px-4 py-2">{crop.fieldName}</td>
                             <td className="border px-4 py-2 text-center">
                                 <button
                                     onClick={() => handleDelete(crop.commonName)}
@@ -181,7 +180,9 @@ export function Crop() {
                     </div>
                     <div className="mb-4">
                         <label>Crop Image</label>
-                        <input type="file" accept=""/>
+                        <input type="file" accept="image/*"
+                               onChange={(e) => setCropImage(e.target.files ? e.target.files[0] : null)}
+                        />
                     </div>
                     <div className="mb-4">
                         <label>Category</label>

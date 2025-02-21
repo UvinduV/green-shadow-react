@@ -1,9 +1,40 @@
+import {Modal} from "../component/Model.tsx";
+import React, {useState} from "react";
+import {closeModal, openModal} from "../reducers/ModelSlice.ts";
+import {useDispatch, useSelector} from "react-redux";
+import {Trash2} from "react-feather";
+import {FieldModel} from "../model/FieldModel.ts";
+
 export function Field() {
+    const dispatch = useDispatch();
+    const isModalOpen = useSelector((state) => state.modal.isModalOpen);
+
+    const [fieldName, setFieldName] = useState("");
+    const [location, setLocation] = useState("");
+    const [extentSize, setExtentSize] = useState("");
+    const [fieldImage1, setFieldImage1] = useState<File | null>(null);
+    const [fieldImage2, setFieldImage2] = useState<File | null>(null);
+
+    const [isEditing, setIsEditing] = useState(false);
+
+
+    const handleAddField = () => {
+        dispatch(openModal());
+    };
+    const handleCloseModal = () => {
+        dispatch(closeModal());
+    };
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        console.log("Field added!");
+        dispatch(closeModal());
+    };
+
     return (
         <>
             <h1>Field</h1>
             <div className="flex justify-end mt-4 mr-56">
-                <button>New Field</button>
+                <button onClick={handleAddField}>New Field</button>
             </div>
 
             {/* Field Table */}
@@ -14,19 +45,19 @@ export function Field() {
                     <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" className="px-6 py-3">
-                            Field Code
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                            Field Image
+                            Field Id
                         </th>
                         <th scope="col" className="px-6 py-3">
                             Field Name
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Field Location (X)
+                            Field Image 1
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Field Location (Y)
+                            Field Image 2
+                        </th>
+                        <th scope="col" className="px-6 py-3">
+                            Location
                         </th>
                         <th scope="col" className="px-6 py-3">
                             Extent Size
@@ -37,83 +68,113 @@ export function Field() {
                     </tr>
                     </thead>
                     <tbody className="bg-slate-100 cursor-pointer">
-                    <tr className="hover:bg-slate-200 border-b border-gray-950 font-bold">
-                        <td className="px-6 py-4">1</td>
-                        <td className="px-6 py-4">
-                            {/*<img src={field} alt="" className="w-24 h-24 rounded-full"/>*/}
-                        </td>
-                        <td className="px-6 py-4">Field 1</td>
-                        <td className="px-6 py-4">Location 1</td>
-                        <td className="px-6 py-4">Location 1</td>
-                        <td className="px-6 py-4">5000 sq. ft.</td>
-                        <td className="px-6 py-4">
-                            <a
-                                href="#"
-                                className="font-medium text-blue-600 hover:underline"
-                            >
-                                Edit
+                    {fields.map((field: FieldModel) => (
+                        <tr
+                            key={field.fieldName}
+                            onClick={() => handleEdit(field)}
+                            className="hover:cursor-pointer hover:bg-yellow-500 hover:text-white"
+                        >
+                            <td className="px-4 py-2">{field.id}</td>
+                            <td className="px-4 py-2">{field.fieldName}</td>
+                            <td className="px-4 py-2">
+                                <img
+                                    src={`${field.fieldImage1}`}
+                                    alt={field.fieldName}
+                                    className="w-24 h-24 rounded-full"
+                                />
+                            </td>
+                            <td className="px-4 py-2">
+                                <img
+                                    src={`${field.fieldImage2}`}
+                                    alt={field.fieldName}
+                                    className="w-24 h-24 rounded-full"
+                                />
+                            </td>
+                            <td className="px-4 py-2">{field.location}</td>
+                            <td className="px-4 py-2">{field.extentSize}</td>
+                            <td className="border px-4 py-2 text-center">
+                                <button
+                                    onClick={() => handleDelete(field.fieldName)}
+                                    className="bg-red-500 text-white p-2 rounded-lg"
+                                >
+                                    <Trash2/>
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
 
-                            </a>
-                            <a
-                                href="#"
-                                className="font-medium text-red-600 hover:underline ml-2"
-                            >
-                                Delete
-
-                            </a>
-                        </td>
-                    </tr>
-                    <tr className="hover:bg-slate-200 border-b border-gray-950 font-bold">
-                        <td className="px-6 py-4">2</td>
-                        <td className="px-6 py-4">
-                            {/*<img src={field} alt="" className="w-24 h-24 rounded-full"/>*/}
-                        </td>
-                        <td className="px-6 py-4">Field 2</td>
-                        <td className="px-6 py-4">Location 1</td>
-                        <td className="px-6 py-4">Location 1</td>
-                        <td className="px-6 py-4">5000 sq. ft.</td>
-                        <td className="px-6 py-4">
-                            <a
-                                href="#"
-                                className="font-medium text-blue-600 hover:underline"
-                            >
-                                Edit
-                            </a>
-                            <a
-                                href="#"
-                                className="font-medium text-red-600 hover:underline ml-2"
-                            >
-                                Delete
-                            </a>
-                        </td>
-                    </tr>
-                    <tr className="hover:bg-slate-200 border-b border-gray-950 font-bold">
-                        <td className="px-6 py-4">3</td>
-                        <td className="px-6 py-4">
-                            {/*<img src={field} alt="" className="w-24 h-24 rounded-full"/>*/}
-                        </td>
-                        <td className="px-6 py-4">Field 3</td>
-                        <td className="px-6 py-4">Location 1</td>
-                        <td className="px-6 py-4">Location 1</td>
-                        <td className="px-6 py-4">5000 sq. ft.</td>
-                        <td className="px-6 py-4">
-                            <a
-                                href="#"
-                                className="font-medium text-blue-600 hover:underline"
-                            >
-                                Edit
-                            </a>
-                            <a
-                                href="#"
-                                className="font-medium text-red-600 hover:underline ml-2"
-                            >
-                                Delete
-                            </a>
-                        </td>
-                    </tr>
                     </tbody>
                 </table>
             </div>
+
+
+            {/*ADD Field*/}
+            <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+                <h2>Field Details</h2>
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-4">
+                    <input
+                            type="text" name="fieldName" placeholder="Field Name" value={fieldName}
+                            onChange={(e) => setFieldName(e.target.value)}
+                            className="border p-2 rounded"
+                            required
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <input
+                            type="text" name="loaction" placeholder="Loaction" value={location}
+                            onChange={(e) => setLocation(e.target.value)}
+                            className="border p-2 rounded"
+                            required
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <input
+                            type="text" name="extentSize" placeholder="Extent Size" value={extentSize}
+                            onChange={(e) => setExtentSize(e.target.value)}
+                            className="border p-2 rounded"
+                            required
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label>Field Image 1</label>
+                        <input type="file" accept="image/*"
+                               onChange={(e) => setFieldImage1(e.target.files ? e.target.files[0] : null)}
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label>Field Image 2</label>
+                        <input type="file" accept="image/*"
+                               onChange={(e) => setFieldImage2(e.target.files ? e.target.files[0] : null)}
+                        />
+                    </div>
+
+                    <div className="flex justify-end">
+                        {isEditing ? (
+                            <button
+                                onClick={handleUpdate}
+                            >
+                                Update
+                            </button>
+                        ) : (
+                            <button
+                                onClick={handleAdd}
+                            >
+                                Add
+                            </button>
+                        )}
+                        {isEditing && (
+                            <button
+                                onClick={resetForm}
+                                className="bg-gray-500 text-white p-2 rounded"
+                            >
+                                Cancel
+                            </button>
+                        )}
+                    </div>
+
+                </form>
+            </Modal>
         </>
     )
 }
