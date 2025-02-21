@@ -4,7 +4,7 @@ import {createSlice} from "@reduxjs/toolkit";
 const initialState : CropModel[]=[]
 
 const CropSlice = createSlice({
-    name:"customer",
+    name:"crop",
     initialState:initialState,
     reducers:{
         addCrop:(state,action)=>{
