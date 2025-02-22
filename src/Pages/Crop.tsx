@@ -4,7 +4,15 @@ import {Modal} from "../component/Model.tsx";
 import React, {useEffect, useState} from "react";
 import {CropModel} from "../model/CropModel.ts";
 import { Trash2 } from "react-feather";
-import {addCrop, deleteCrop, getAllCrops, saveCrop, updateCrop, updatedCrop} from "../reducers/CropSlice.ts";
+import {
+    addCrop,
+    deleteCrop,
+    deletedCrop,
+    getAllCrops,
+    saveCrop,
+    updateCrop,
+    updatedCrop
+} from "../reducers/CropSlice.ts";
 import {AppDispatch} from "../store/Store.ts";
 import {getFieldNames} from "../reducers/FieldSlice.ts";
 import {FieldModel} from "../model/FieldModel.ts";
@@ -41,8 +49,8 @@ export function Crop() {
         dispatch(saveCrop(newCrop));
         alert("Crop added successfully!");
         resetForm();
+        dispatch(closeModal());
         dispatch(getAllCrops());
-        dispatch(closeModal())
     }
     const handleUpdate = () => {
         if (!commonName || !scientificName) {
@@ -54,10 +62,12 @@ export function Crop() {
         alert("Crop updated successfully!")
         resetForm();
         dispatch(closeModal());
+        dispatch(getAllCrops());
     }
     const handleDelete = (commonName: string) => {
         if (window.confirm("Are you sure you want to delete this crop?")) {
-            dispatch(deleteCrop(commonName));
+            //dispatch(deleteCrop(commonName));
+            dispatch(deletedCrop(commonName));
             console.log("crop deleted!", commonName);
         }
     }

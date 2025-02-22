@@ -1,6 +1,8 @@
 import {CropModel} from "../model/CropModel.ts";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
+import {FieldModel} from "../model/FieldModel.ts";
+import {deletedField} from "./FieldSlice.ts";
 
 const initialState : CropModel[]=[]
 
@@ -75,6 +77,17 @@ export const updatedCrop = createAsyncThunk(
         }
     }
 );
+export const deletedCrop = createAsyncThunk(
+    "crop/deletedCrop",
+    async (commonName: string) => {
+        try {
+            const response = await api.delete(`/Crop/delete/${commonName}`);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+);
 
 
 
@@ -139,6 +152,18 @@ const CropSlice = createSlice({
                 console.error("Failed to update crop!", action.payload);
             })
             .addCase(updatedCrop.pending, (state, action) => {
+                console.error("Pending");
+            });
+        builder
+            .addCase(deletedCrop.fulfilled, (state, action) => {
+                return state.filter(
+                    (crop: CropModel) => crop.commonName !== action.payload.commonName
+                );
+            })
+            .addCase(deletedCrop.rejected, (state, action) => {
+                console.error("Failed to delete crop", action.payload);
+            })
+            .addCase(deletedCrop.pending, (state, action) => {
                 console.error("Pending");
             });
     }
