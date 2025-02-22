@@ -10,6 +10,7 @@ import {getFieldNames} from "../reducers/FieldSlice.ts";
 import {FieldModel} from "../model/FieldModel.ts";
 
 export function Crop() {
+    const url = "http://localhost:3002/";
 
     const dispatch = useDispatch<AppDispatch>();
     const isModalOpen = useSelector((state) => state.modal.isModalOpen);
@@ -130,7 +131,13 @@ export function Crop() {
                     </tr>
                     </thead>
                     <tbody className="bg-slate-100 cursor-pointer">
-                    {crops.map((crop: CropModel) => (
+                    {crops
+                        .filter((crop: CropModel) => crop && crop.commonName)
+                        .filter(
+                            (crop: CropModel, index, self) =>
+                                index === self.findIndex((c: CropModel) => c.commonName === crop.commonName)
+                        )
+                        .map((crop: CropModel) => (
                         <tr
                             key={crop.commonName}
                             onClick={() => handleEdit(crop)}
@@ -140,14 +147,14 @@ export function Crop() {
                             <td className="px-4 py-2">{crop.scientificName}</td>
                             <td className="px-4 py-2">
                                 <img
-                                    src={`${crop.cropImage}`}
+                                    src={`${url}${crop.cropImage1}`}
                                     alt={crop.commonName}
-                                    className="w-24 h-24 rounded-full"
+                                    className="w-20 h-20 rounded-full"
                                 />
                             </td>
                             <td className="px-4 py-2">{crop.category}</td>
                             <td className="px-4 py-2">{crop.season}</td>
-                            <td className="px-4 py-2">{crop.fieldName}</td>
+                            <td className="px-4 py-2">{crop.fieldId}</td>
                             <td className="border px-4 py-2 text-center">
                                 <button
                                     onClick={() => handleDelete(crop.commonName)}
