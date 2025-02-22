@@ -8,6 +8,7 @@ import {Trash2} from "react-feather";
 import {StaffModel} from "../model/StaffModel.ts";
 import {getAllStaff, saveStaff, updatedStaff} from "../reducers/StaffSlice.ts";
 import {getFieldNames} from "../reducers/FieldSlice.ts";
+import {deletedCrop} from "../reducers/CropSlice.ts";
 
 export function Staff() {
     const dispatch = useDispatch<AppDispatch>();
@@ -60,10 +61,11 @@ export function Staff() {
         dispatch(getAllStaff());
 
     }
-    const handleDelete = (commonName: string) => {
+    const handleDelete = (firstName: string) => {
         if (window.confirm("Are you sure you want to delete this staff member?")) {
-
-            console.log("staff deleted!", commonName);
+            dispatch(deletedCrop(firstName))
+            console.log("staff deleted!", firstName);
+            dispatch(getAllStaff());
         }
     }
 

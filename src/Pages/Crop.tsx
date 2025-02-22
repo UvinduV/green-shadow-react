@@ -69,6 +69,7 @@ export function Crop() {
             //dispatch(deleteCrop(commonName));
             dispatch(deletedCrop(commonName));
             console.log("crop deleted!", commonName);
+            dispatch(getAllCrops());
         }
     }
     const handleEdit = (crop: CropModel) => {

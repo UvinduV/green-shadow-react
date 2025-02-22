@@ -1,6 +1,8 @@
 import {StaffModel} from "../model/StaffModel.ts";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
+import {FieldModel} from "../model/FieldModel.ts";
+import {deletedField} from "./FieldSlice.ts";
 
 const initialState : StaffModel[]=[]
 
@@ -33,7 +35,18 @@ export const updatedStaff = createAsyncThunk(
     "staff/updatedStaff",
     async (payload: { firstName: string; staff: StaffModel }) => {
         try {
-            const response = await api.put(`/update/${payload.firstName}`, payload.staff);
+            const response = await api.put(`/Staff/update/${payload.firstName}`, payload.staff);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+);
+export const deletedStaff = createAsyncThunk(
+    "staff/deletedStaff",
+    async (firstName: string) => {
+        try {
+            const response = await api.delete(`/Staff/delete/${firstName}`);
             return response.data;
         } catch (error) {
             console.log(error);
@@ -84,6 +97,18 @@ const StaffSlice = createSlice({
                 console.error("Failed to update staff!", action.payload);
             })
             .addCase(updatedStaff.pending, (state, action) => {
+                console.error("Pending");
+            });
+        builder
+            .addCase(deletedStaff.fulfilled, (state, action) => {
+                return state.filter(
+                    (staff: StaffModel) => staff.firstName !== action.payload.firstName
+                );
+            })
+            .addCase(deletedField.rejected, (state, action) => {
+                console.error("Failed to delete Staff!", action.payload);
+            })
+            .addCase(deletedField.pending, (state, action) => {
                 console.error("Pending");
             });
     },
