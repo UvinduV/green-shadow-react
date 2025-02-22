@@ -1,8 +1,6 @@
 import {CropModel} from "../model/CropModel.ts";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
-import {FieldModel} from "../model/FieldModel.ts";
-import {deletedField} from "./FieldSlice.ts";
 
 const initialState : CropModel[]=[]
 
