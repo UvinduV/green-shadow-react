@@ -5,7 +5,7 @@ import axios from "axios";
 const initialState : CropModel[]=[]
 
 const api = axios.create({
-    baseURL : "http://localhost:3002/"
+    baseURL : "http://localhost:3002"
 })
 
 export const saveCrop = createAsyncThunk(
@@ -26,7 +26,7 @@ export const saveCrop = createAsyncThunk(
             formData.append("season", crop.season);
             formData.append("fieldId", fieldId);
 
-            const response = await api.post("Crop/add", formData, {
+            const response = await api.post("/Crop/add", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },

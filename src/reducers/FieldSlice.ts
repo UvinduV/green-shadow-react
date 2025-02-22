@@ -5,7 +5,7 @@ import axios from "axios";
 const initialState : FieldModel[]=[]
 
 const api = axios.create({
-    baseURL : "http://localhost:3002/"
+    baseURL : "http://localhost:3002"
 })
 
 export const saveField = createAsyncThunk(
@@ -23,7 +23,7 @@ export const saveField = createAsyncThunk(
                 formData.append("fieldImage2", field.fieldImage2);
             }
 
-            const response = await api.post("Field/add", formData, {
+            const response = await api.post("/Field/add", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },

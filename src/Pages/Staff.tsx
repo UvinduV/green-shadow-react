@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../store/Store.ts";
 import {Trash2} from "react-feather";
 import {StaffModel} from "../model/StaffModel.ts";
-import {getAllStaff, saveStaff} from "../reducers/StaffSlice.ts";
+import {getAllStaff, saveStaff, updatedStaff} from "../reducers/StaffSlice.ts";
 import {getFieldNames} from "../reducers/FieldSlice.ts";
 
 export function Staff() {
@@ -52,6 +52,12 @@ export function Staff() {
             alert("All fields are required!")
             return
         }
+        const staff = new StaffModel(firstName,lastName,designation,gender,joinedDate,dob,address,contactNo,email,role,fieldName);
+        dispatch(updatedStaff({firstName:staff.firstName,staff}));
+        alert("Staff member updated successfully!")
+        resetForm();
+        dispatch(closeModal());
+        dispatch(getAllStaff());
 
     }
     const handleDelete = (commonName: string) => {

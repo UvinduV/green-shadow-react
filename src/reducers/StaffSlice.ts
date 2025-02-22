@@ -5,14 +5,14 @@ import axios from "axios";
 const initialState : StaffModel[]=[]
 
 const api = axios.create({
-    baseURL : "http://localhost:3002/"
+    baseURL : "http://localhost:3002"
 })
 
 export const saveStaff = createAsyncThunk(
     "staff/saveStaff",
     async (staff: StaffModel) => {
         try {
-            const response = await api.post("Field/add", staff);
+            const response = await api.post("/Staff/add", staff);
             return response.data;
         } catch (error) {
             console.log(error);
@@ -29,6 +29,20 @@ export const getAllStaff = createAsyncThunk(
         }
     }
 );
+export const updatedStaff = createAsyncThunk(
+    "staff/updatedStaff",
+    async (payload: { firstName: string; staff: StaffModel }) => {
+        try {
+            const response = await api.put(`/update/${payload.firstName}`, payload.staff);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+);
+
+
+
 const StaffSlice = createSlice({
     name:"staff",
     initialState:initialState,
@@ -55,6 +69,21 @@ const StaffSlice = createSlice({
                 console.error("Failed to load Staff data", action.payload);
             })
             .addCase(getAllStaff.pending, (state, action) => {
+                console.error("Pending");
+            });
+        builder
+            .addCase(updatedStaff.fulfilled, (state, action) => {
+                const index = state.findIndex(
+                    (staff) => staff.firstName === action.payload.firstName
+                );
+                if (index !== -1) {
+                    state[index] = action.payload;
+                }
+            })
+            .addCase(updatedStaff.rejected, (state, action) => {
+                console.error("Failed to update staff!", action.payload);
+            })
+            .addCase(updatedStaff.pending, (state, action) => {
                 console.error("Pending");
             });
     },
