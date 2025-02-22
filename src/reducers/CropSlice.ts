@@ -38,14 +38,44 @@ export const saveCrop = createAsyncThunk(
     }
 );
 export const getAllCrops = createAsyncThunk(
-    "field/getAllCrops", async () => {
+    "crop/getAllCrops", async () => {
         try {
             const response = await api.get("/Crop/view");
             return response.data;
         } catch (error) {
             console.log(error);
         }
-    });
+    }
+);
+export const updatedCrop = createAsyncThunk(
+    "crop/updatedCrop",
+    async (payload: { commonName: string; crop: CropModel }) => {
+        try {
+            const responseFieldId = await api.get(`/Field/searchFieldId/${payload.crop.fieldName}`);
+            const fieldId= responseFieldId.data;
+
+            const formData = new FormData();
+
+            formData.append("commonName", payload.crop.commonName);
+            formData.append("scientificName", payload.crop.scientificName);
+            if (payload.crop.cropImage instanceof File) {
+                formData.append("cropImage1", payload.crop.cropImage);
+            }
+            formData.append("category", payload.crop.category);
+            formData.append("season", payload.crop.season);
+            formData.append("fieldId", fieldId);
+
+            const response = await api.put(
+                `/Crop/update/${payload.commonName}`,
+                formData
+            );
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+);
+
 
 
 const CropSlice = createSlice({
@@ -94,6 +124,21 @@ const CropSlice = createSlice({
                 console.error("Failed to load crop data", action.payload);
             })
             .addCase(getAllCrops.pending, (state, action) => {
+                console.error("Pending");
+            });
+        builder
+            .addCase(updatedCrop.fulfilled, (state, action) => {
+                const index = state.findIndex(
+                    (crop) => crop.commonName === action.payload.commonName
+                );
+                if (index !== -1) {
+                    state[index] = action.payload;
+                }
+            })
+            .addCase(updatedCrop.rejected, (state, action) => {
+                console.error("Failed to update crop!", action.payload);
+            })
+            .addCase(updatedCrop.pending, (state, action) => {
                 console.error("Pending");
             });
     }

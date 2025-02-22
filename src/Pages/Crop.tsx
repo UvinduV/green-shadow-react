@@ -4,7 +4,7 @@ import {Modal} from "../component/Model.tsx";
 import React, {useEffect, useState} from "react";
 import {CropModel} from "../model/CropModel.ts";
 import { Trash2 } from "react-feather";
-import {addCrop, deleteCrop, getAllCrops, saveCrop, updateCrop} from "../reducers/CropSlice.ts";
+import {addCrop, deleteCrop, getAllCrops, saveCrop, updateCrop, updatedCrop} from "../reducers/CropSlice.ts";
 import {AppDispatch} from "../store/Store.ts";
 import {getFieldNames} from "../reducers/FieldSlice.ts";
 import {FieldModel} from "../model/FieldModel.ts";
@@ -39,8 +39,10 @@ export function Crop() {
         const newCrop = new CropModel(commonName,scientificName,cropImage,category,season,fieldName);
         //dispatch(addCrop(newCrop));
         dispatch(saveCrop(newCrop));
-        alert("Crop added successfully!")
+        alert("Crop added successfully!");
         resetForm();
+        dispatch(getAllCrops());
+        dispatch(closeModal())
     }
     const handleUpdate = () => {
         if (!commonName || !scientificName) {
@@ -48,7 +50,7 @@ export function Crop() {
             return
         }
         const crop = new CropModel(commonName,scientificName,cropImage,category,season,fieldName);
-        dispatch(updateCrop(crop));
+        dispatch(updatedCrop({commonName:crop.commonName,crop}));
         alert("Crop updated successfully!")
         resetForm();
         dispatch(closeModal());
