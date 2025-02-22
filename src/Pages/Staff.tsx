@@ -1,12 +1,13 @@
 import {Modal} from "../component/Model.tsx";
 import {FieldModel} from "../model/FieldModel.ts";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {closeModal, openModal} from "../reducers/ModelSlice.ts";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../store/Store.ts";
 import {Trash2} from "react-feather";
 import {StaffModel} from "../model/StaffModel.ts";
-import {saveStaff} from "../reducers/StaffSlice.ts";
+import {getAllStaff, saveStaff} from "../reducers/StaffSlice.ts";
+import {getFieldNames} from "../reducers/FieldSlice.ts";
 
 export function Staff() {
     const dispatch = useDispatch<AppDispatch>();
@@ -28,6 +29,11 @@ export function Staff() {
 
     const [isEditing, setIsEditing] = useState(false);
 
+    useEffect(() => {
+        dispatch(getAllStaff());
+        dispatch(getFieldNames());
+    }, [dispatch, fieldNames, staff]);
+
 
     const handleAdd = () => {
         if (!firstName || !lastName ||!email ||!contactNo ||!role) {
@@ -39,6 +45,7 @@ export function Staff() {
         alert("Staff added successfully!");
         resetForm();
         dispatch(closeModal());
+        dispatch(getAllStaff());
     }
     const handleUpdate = () => {
         if (!firstName || !lastName ||!email ||!contactNo ||!role) {
@@ -48,9 +55,9 @@ export function Staff() {
 
     }
     const handleDelete = (commonName: string) => {
-        if (window.confirm("Are you sure you want to delete this crop?")) {
+        if (window.confirm("Are you sure you want to delete this staff member?")) {
 
-            console.log("crop deleted!", commonName);
+            console.log("staff deleted!", commonName);
         }
     }
 
@@ -179,19 +186,17 @@ export function Staff() {
             <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
                 <h2>Staff Details</h2>
                 <form onSubmit={handleSubmit}>
-                    <div className="mb-4">
+                    <div className="flex gap-4 mb-4">
                         <input
-                            type="text" name="firstName" placeholder="First Name" value={firstName}
+                            type="text" name="firstName" placeholder="First Name : Enter Unique code with" value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
-                            className="border p-2 rounded"
+                            className="border p-1 rounded h-8"
                             required
                         />
-                    </div>
-                    <div className="mb-4">
                         <input
                             type="text" name="lastName" placeholder="Last Name" value={lastName}
                             onChange={(e) => setLastName(e.target.value)}
-                            className="border p-2 rounded"
+                            className="border p-1 rounded h-8"
                             required
                         />
                     </div>
@@ -199,19 +204,19 @@ export function Staff() {
                         <input
                             type="text" name="designation" placeholder="Designation" value={designation}
                             onChange={(e) => setDesignation(e.target.value)}
-                            className="border p-2 rounded"
+                            className="border p-1 rounded h-8"
                             required
                         />
                     </div>
-                    <div className="mb-4">
-                        <label>Gender</label>
+                    <div className="flex gap-4 mb-4">
+                        <label>Gender : </label>
                         <select
                             name="gender"
                             value={gender}
                             onChange={(e) => setGender(e.target.value)}
                             id=""
+                            className="border p-1 rounded"
                         >
-                            <option value="">Select Field</option>
                             <option value="MALE">Male</option>
                             <option value="FEMALE">Female</option>
 
@@ -221,7 +226,7 @@ export function Staff() {
                         <input
                             type="text" name="joinedDate" placeholder="Joined Date" value={joinedDate}
                             onChange={(e) => setJoinedDate(e.target.value)}
-                            className="border p-2 rounded"
+                            className="border p-1 rounded h-8"
                             required
                         />
                     </div>
@@ -229,7 +234,7 @@ export function Staff() {
                         <input
                             type="text" name="dob" placeholder="Date of Birth" value={dob}
                             onChange={(e) => setDob(e.target.value)}
-                            className="border p-2 rounded"
+                            className="border p-1 rounded h-8"
                             required
                         />
                     </div>
@@ -237,33 +242,33 @@ export function Staff() {
                         <input
                             type="text" name="address" placeholder="Address" value={address}
                             onChange={(e) => setAddress(e.target.value)}
-                            className="border p-2 rounded"
+                            className="border p-1 rounded h-8"
                             required
                         />
                     </div>
-                    <div className="mb-4">
+                    <div className="flex gap-4 mb-4">
                         <input
                             type="text" name="contactNo" placeholder="Contact No" value={contactNo}
                             onChange={(e) => setContactNo(e.target.value)}
-                            className="border p-2 rounded"
+                            className="border p-1 rounded h-8"
                             required
                         />
-                    </div>
-                    <div className="mb-4">
                         <input
                             type="text" name="email" placeholder="Email" value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="border p-2 rounded"
+                            className="border p-1 rounded h-8"
                             required
                         />
                     </div>
-                    <div className="mb-4">
-                        <label>Gender</label>
+
+                    <div className="flex gap-4 mb-4">
+                        <label>Job Role :</label>
                         <select
                             name="role"
                             value={role}
                             onChange={(e) => setRole(e.target.value)}
                             id=""
+                            className="border p-1 rounded"
                         >
                             <option value="">Select Role</option>
                             <option value="MANAGER">Manager</option>
@@ -274,13 +279,14 @@ export function Staff() {
 
                         </select>
                     </div>
-                    <div className="mb-4">
+                    <div className="flex gap-4 mb-4">
                         <label>Field Details</label>
                         <select
                             name="fieldName"
                             value={fieldName}
                             onChange={(e) => setFieldName(e.target.value)}
                             id=""
+                            className="border p-1 rounded"
                         >
                             <option value="">Select Field</option>
                             {fieldNames.map((field: FieldModel, index) => (

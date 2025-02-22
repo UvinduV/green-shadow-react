@@ -19,7 +19,16 @@ export const saveStaff = createAsyncThunk(
         }
     }
 );
-
+export const getAllStaff = createAsyncThunk(
+    "staff/getAllStaff", async () => {
+        try {
+            const response = await api.get("/Staff/view");
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+);
 const StaffSlice = createSlice({
     name:"staff",
     initialState:initialState,
@@ -34,6 +43,18 @@ const StaffSlice = createSlice({
                 console.error("Failed to save staff!", action.payload);
             })
             .addCase(saveStaff.pending, (state, action) => {
+                console.error("Pending");
+            });
+        builder
+            .addCase(getAllStaff.fulfilled, (state, action) => {
+                action.payload.map((staff: StaffModel) => {
+                    state.push(staff);
+                });
+            })
+            .addCase(getAllStaff.rejected, (state, action) => {
+                console.error("Failed to load Staff data", action.payload);
+            })
+            .addCase(getAllStaff.pending, (state, action) => {
                 console.error("Pending");
             });
     },
