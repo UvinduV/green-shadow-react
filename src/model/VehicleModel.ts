@@ -13,5 +13,6 @@ export class VehicleModel {
         this.status = status;
         this.remarks = remarks;
         this.staffName = staffName;
+
     }
 }
