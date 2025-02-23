@@ -1,12 +1,14 @@
 import {Modal} from "../component/Model.tsx";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {StaffModel} from "../model/StaffModel.ts";
 import {closeModal, openModal} from "../reducers/ModelSlice.ts";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../store/Store.ts";
 import {VehicleModel} from "../model/VehicleModel.ts";
-import {saveVehicle} from "../reducers/VehicleSlice.ts";
+import {getAllVehicle, saveVehicle, updatedVehicle} from "../reducers/VehicleSlice.ts";
 import {Trash2} from "react-feather";
+import {getAllStaff, getStaffNames} from "../reducers/StaffSlice.ts";
+import {getFieldNames} from "../reducers/FieldSlice.ts";
 
 export function Vehicle() {
     const dispatch = useDispatch<AppDispatch>();
@@ -23,6 +25,11 @@ export function Vehicle() {
 
     const [isEditing, setIsEditing] = useState(false);
 
+    useEffect(() => {
+        dispatch(getAllVehicle());
+        dispatch(getStaffNames());
+    }, [dispatch, staffNames, vehicles]);
+
     const handleAdd = () => {
         if (!licensePlateNumber || !vehicleCategory || !fuelType ) {
             alert("All fields are required!")
@@ -33,12 +40,20 @@ export function Vehicle() {
         alert("Vehicle added successfully!");
         resetForm();
         dispatch(closeModal());
+        dispatch(getAllVehicle());
+
     }
     const handleUpdate= () =>{
         if (!licensePlateNumber || !vehicleCategory || !fuelType ) {
             alert("All fields are required!");
             return
         }
+        const vehicle = new VehicleModel(licensePlateNumber,vehicleCategory,fuelType,Status,remarks,staffName);
+        dispatch(updatedVehicle({licensePlateNumber:vehicle.licensePlateNumber,vehicle}));
+        alert("Vehicle updated successfully!")
+        resetForm();
+        dispatch(closeModal());
+        dispatch(getAllVehicle());
     }
     const handleDelete= (licensePlateNumber :string) =>{
         if (window.confirm("Are you sure you want to delete this Vehicle?")) {

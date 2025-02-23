@@ -1,6 +1,7 @@
 import {VehicleModel} from "../model/VehicleModel.ts";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
+import {updatedStaff} from "./StaffSlice.ts";
 
 const initialState : VehicleModel[]=[]
 
@@ -34,6 +35,22 @@ export const getAllVehicle = createAsyncThunk(
         }
     }
 );
+export const updatedVehicle = createAsyncThunk(
+    "vehicle/updatedVehicle",
+    async (payload: { licensePlateNumber: string; vehicle: VehicleModel }) => {
+        try {
+            const responseStaffId = await api.get(`/Staff/searchStaffId/${payload.vehicle.staffName}`);
+            const staffId= responseStaffId.data;
+
+            payload.vehicle.staffName = staffId;
+            const response = await api.put(`/Vehicle/update/${payload.licensePlateNumber}`, payload.vehicle);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+);
+
 
 const VehicleSlice = createSlice({
     name:"vehicle",
@@ -61,6 +78,21 @@ const VehicleSlice = createSlice({
                 console.error("Failed to load vehicle data", action.payload);
             })
             .addCase(getAllVehicle.pending, (state, action) => {
+                console.error("Pending");
+            });
+        builder
+            .addCase(updatedVehicle.fulfilled, (state, action) => {
+                const index = state.findIndex(
+                    (vehicle) => vehicle.licensePlateNumber === action.payload.licensePlateNumber
+                );
+                if (index !== -1) {
+                    state[index] = action.payload;
+                }
+            })
+            .addCase(updatedVehicle.rejected, (state, action) => {
+                console.error("Failed to update vehicle!", action.payload);
+            })
+            .addCase(updatedVehicle.pending, (state, action) => {
                 console.error("Pending");
             });
     }
