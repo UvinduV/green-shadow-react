@@ -2,7 +2,7 @@ import {StaffModel} from "../model/StaffModel.ts";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
 import {FieldModel} from "../model/FieldModel.ts";
-import {deletedField} from "./FieldSlice.ts";
+import {deletedField, getFieldNames} from "./FieldSlice.ts";
 
 const initialState : StaffModel[]=[]
 
@@ -56,6 +56,17 @@ export const deletedStaff = createAsyncThunk(
     async (firstName: string) => {
         try {
             const response = await api.delete(`/Staff/delete/${firstName}`);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+);
+export const getStaffNames = createAsyncThunk(
+    "staff/getStaffNames",
+    async () => {
+        try {
+            const response = await api.get("/Staff/staffNames");
             return response.data;
         } catch (error) {
             console.log(error);
@@ -118,6 +129,16 @@ const StaffSlice = createSlice({
                 console.error("Failed to delete Staff!", action.payload);
             })
             .addCase(deletedField.pending, (state, action) => {
+                console.error("Pending");
+            });
+        builder
+            .addCase(getStaffNames.fulfilled, (state, action) => {
+                return action.payload;
+            })
+            .addCase(getStaffNames.rejected, (state, action) => {
+                console.error("Failed to load staff names", action.payload);
+            })
+            .addCase(getStaffNames.pending, (state, action) => {
                 console.error("Pending");
             });
     },

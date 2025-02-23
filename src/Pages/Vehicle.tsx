@@ -1,9 +1,41 @@
+import {Modal} from "../component/Model.tsx";
+import React, {useState} from "react";
+import {StaffModel} from "../model/StaffModel.ts";
+import {closeModal, openModal} from "../reducers/ModelSlice.ts";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch} from "../store/Store.ts";
+
 export function Vehicle() {
+    const dispatch = useDispatch<AppDispatch>();
+    const isModalOpen = useSelector((state) => state.modal.isModalOpen);
+    const staffNames = useSelector((state) => state.staff);
+
+    const [licensePlateNumber,setLicensePlateNumber] = useState("");
+    const [vehicleCategory, setVehicleCategory] = useState("");
+    const [fuelType, setFuelType] = useState("");
+    const [Status, setStatus] = useState("");
+    const [remarks, setRemarks] = useState("");
+    const [staffName, setStaffName] = useState("");
+
+    const [isEditing, setIsEditing] = useState(false);
+
+
+    const handleAddVehicle = () => {
+        dispatch(openModal());
+    };
+    const handleCloseModal = () => {
+        dispatch(closeModal());
+    };
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        console.log("Vehicle added!");
+        dispatch(closeModal());
+    };
     return (
         <>
             <h1>Vehicle</h1>
             <div className="flex justify-end mt-4 mr-56">
-                <button>New Vehicle</button>
+                <button onClick={handleAddVehicle}>New Vehicle</button>
             </div>
 
             {/* Vehicle Table */}
@@ -59,54 +91,128 @@ export function Vehicle() {
                             </a>
                         </td>
                     </tr>
-                    <tr className="hover:bg-slate-200 border-b border-gray-950 font-bold">
-                        <td className="px-6 py-4">LI-5645</td>
-                        <td className="px-6 py-4">Lorry</td>
-                        <td className="px-6 py-4">Diesel</td>
-                        <td className="px-6 py-4">Available</td>
-                        <td className="px-6 py-4">Heavy duty</td>
-                        <td className="px-6 py-4">Kamal</td>
-                        <td className="px-6 py-4">
-                        <a
-                            href="#"
-                                className="font-medium text-blue-600 hover:underline"
-                            >
-                                Edit
-                            </a>
-                            <a
-                                href="#"
-                                className="font-medium text-red-600 hover:underline ml-2"
-                            >
-                                Delete
-                            </a>
-                        </td>
-                    </tr>
-                    <tr className="hover:bg-slate-200 border-b border-gray-950 font-bold">
-                        <td className="px-6 py-4">LW-5645</td>
-                        <td className="px-6 py-4">Lorry</td>
-                        <td className="px-6 py-4">Diesel</td>
-                        <td className="px-6 py-4">Available</td>
-                        <td className="px-6 py-4">Heavy duty</td>
-                        <td className="px-6 py-4">Kamal</td>
-                        <td className="px-6 py-4">
-                            <a
-                                href="#"
-                                className="font-medium text-blue-600 hover:underline"
-                            >
-                                Edit
-                            </a>
-                            <a
-                                href="#"
-                                className="font-medium text-red-600 hover:underline ml-2"
-                            >
-                                Delete
-                            </a>
-                        </td>
-                    </tr>
+
                     </tbody>
                 </table>
 
             </div>
+
+
+            {/*ADD Vehicle*/}
+            <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+                <h2>Vehicle Details</h2>
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-4">
+                        <input
+                            type="text" name="licensePlateNumber" placeholder="Vehicle Number : Eg:LH-XXXX"
+                            value={licensePlateNumber}
+                            onChange={(e) => setLicensePlateNumber(e.target.value)}
+                            className="border p-2 rounded"
+                            required
+                        />
+                    </div>
+                    <div className="flex gap-4 mb-4">
+                        <label>Vehicle Category :</label>
+                        <select
+                            name="vehicleCategory"
+                            value={vehicleCategory}
+                            onChange={(e) => setVehicleCategory(e.target.value)}
+                            id=""
+                            className="border p-2 rounded"
+                        >
+                            <option value="">Select Category</option>
+                            <option value="LORRY">Lorry</option>
+                            <option value="VAN">Van</option>
+                            <option value="TRACTOR">Tractor</option>
+                            <option value="CAR">car</option>
+                            <option value="OTHER">Other</option>
+
+                        </select>
+                    </div>
+                    <div className="flex gap-4 mb-4">
+                        <label>Fuel Type :</label>
+                        <select
+                            name="fuelType"
+                            value={fuelType}
+                            onChange={(e) => setFuelType(e.target.value)}
+                            id=""
+                            className="border p-2 rounded"
+                        >
+                            <option value="">Select fuel Type</option>
+                            <option value="DIESEL">Diesel</option>
+                            <option value="PETROL">Petrol</option>
+                            <option value="HYBRID">Hybrid</option>
+                            <option value="ELECTRIC">Electric</option>
+                        </select>
+                    </div>
+                    <div className="flex gap-4 mb-4">
+                        <label>Status :</label>
+                        <select
+                            name="Status"
+                            value={Status}
+                            onChange={(e) => setStatus(e.target.value)}
+                            id=""
+                            className="border p-2 rounded"
+                        >
+                            <option value="">Select Status</option>
+                            <option value="AVAILABLE">Available</option>
+                            <option value="UNAVAILABLE">Unavailable</option>
+                        </select>
+                    </div>
+                    <div className="mb-4">
+                        <input
+                            type="text" name="remarks" placeholder="Remarks"
+                            value={remarks}
+                            onChange={(e) => setRemarks(e.target.value)}
+                            className="border p-2 rounded"
+                            required
+                        />
+                    </div>
+                    <div className="flex gap-4 mb-4">
+                        <label>Staff Details</label>
+                        <select
+                            name="staff Name"
+                            value={staffName}
+                            onChange={(e) => setStaffName(e.target.value)}
+                            id=""
+                            className="border p-2 rounded"
+                        >
+                            <option value="">Select Staff</option>
+                            {staffNames.map((staff: StaffModel, index) => (
+                                <option key={index} value={staff}>
+                                    {staff}
+                                </option>
+                            ))}
+
+                        </select>
+                    </div>
+
+                    {/*<div className="flex justify-end">
+                        {isEditing ? (
+                            <button
+                                onClick={handleUpdate}
+                            >
+                                Update
+                            </button>
+                        ) : (
+                            <button
+                                onClick={handleAdd}
+                            >
+                                Add
+                            </button>
+                        )}
+                        {isEditing && (
+                            <button
+                                onClick={resetForm}
+                                className="bg-gray-500 text-white p-2 rounded"
+                            >
+                                Cancel
+                            </button>
+                        )}
+                    </div>*/}
+
+                </form>
+            </Modal>
         </>
     )
 }
