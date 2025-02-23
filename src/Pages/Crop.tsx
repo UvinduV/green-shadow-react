@@ -1,7 +1,7 @@
 import {useDispatch, useSelector} from "react-redux";
 import {closeModal, openModal} from "../reducers/ModelSlice.ts";
 import {Modal} from "../component/Model.tsx";
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {CropModel} from "../model/CropModel.ts";
 import { Trash2,Plus } from "react-feather";
 import {

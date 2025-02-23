@@ -1,5 +1,5 @@
 import {Modal} from "../component/Model.tsx";
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {closeModal, openModal} from "../reducers/ModelSlice.ts";
 import {useDispatch, useSelector} from "react-redux";
 import {Trash2,Plus} from "react-feather";

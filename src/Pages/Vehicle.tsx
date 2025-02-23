@@ -4,14 +4,15 @@ import {StaffModel} from "../model/StaffModel.ts";
 import {closeModal, openModal} from "../reducers/ModelSlice.ts";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../store/Store.ts";
-import {saveCrop} from "../reducers/CropSlice.ts";
 import {VehicleModel} from "../model/VehicleModel.ts";
 import {saveVehicle} from "../reducers/VehicleSlice.ts";
+import {Trash2} from "react-feather";
 
 export function Vehicle() {
     const dispatch = useDispatch<AppDispatch>();
     const isModalOpen = useSelector((state) => state.modal.isModalOpen);
     const staffNames = useSelector((state) => state.staff);
+    const vehicles = useSelector((state) => state.vehicle);
 
     const [licensePlateNumber,setLicensePlateNumber] = useState("");
     const [vehicleCategory, setVehicleCategory] = useState("");
@@ -35,7 +36,7 @@ export function Vehicle() {
     }
     const handleUpdate= () =>{
         if (!licensePlateNumber || !vehicleCategory || !fuelType ) {
-            alert("All fields are required!")
+            alert("All fields are required!");
             return
         }
     }
@@ -44,6 +45,18 @@ export function Vehicle() {
 
             console.log("vehicle deleted!", licensePlateNumber);
         }
+    }
+    const handleEdit = (vehicle: VehicleModel) => {
+        dispatch(openModal());
+
+        setLicensePlateNumber(vehicle.licensePlateNumber);
+        setVehicleCategory(vehicle.vehicleCategory);
+        setFuelType(vehicle.fuelType);
+        setStatus(vehicle.Status);
+        setRemarks(vehicle.remarks);
+        setStaffName(vehicle.staffName);
+
+        setIsEditing(true);
     }
     const resetForm = () => {
         setLicensePlateNumber("")
@@ -105,28 +118,34 @@ export function Vehicle() {
                     </tr>
                     </thead>
                     <tbody className="bg-slate-100 cursor-pointer">
-                    <tr className="hover:bg-slate-200 border-b border-gray-950 font-bold">
-                        <td className="px-6 py-4">LH-5645</td>
-                        <td className="px-6 py-4">Lorry</td>
-                        <td className="px-6 py-4">Diesel</td>
-                        <td className="px-6 py-4">Available</td>
-                        <td className="px-6 py-4">Heavy duty</td>
-                        <td className="px-6 py-4">Kamal</td>
-                        <td className="px-6 py-4">
-                            <a
-                                href="#"
-                                className="font-medium text-blue-600 hover:underline"
+                    {vehicles
+                        .filter((vehicle: VehicleModel) => vehicle && vehicle.licensePlateNumber)
+                        .filter(
+                            (vehicle: VehicleModel, index, self) =>
+                                index === self.findIndex((v: VehicleModel) => v.licensePlateNumber === vehicle.licensePlateNumber)
+                        )
+                        .map((vehicle: VehicleModel) => (
+                            <tr
+                                key={vehicle.licensePlateNumber}
+                                onClick={() => handleEdit(vehicle)}
+                                className="hover:cursor-pointer hover:bg-yellow-500 hover:text-white"
                             >
-                                Edit
-                            </a>
-                            <a
-                                href="#"
-                                className="font-medium text-red-600 hover:underline ml-2"
-                            >
-                                Delete
-                            </a>
-                        </td>
-                    </tr>
+                                <td className="px-4 py-2">{vehicle.licensePlateNumber}</td>
+                                <td className="px-4 py-2">{vehicle.vehicleCategory}</td>
+                                <td className="px-4 py-2">{vehicle.fuelType}</td>
+                                <td className="px-4 py-2">{vehicle.Status}</td>
+                                <td className="px-4 py-2">{vehicle.remarks}</td>
+                                <td className="px-4 py-2">{vehicle.staffId}</td>
+                                <td className="border px-4 py-2 text-center">
+                                    <button
+                                        onClick={() => handleDelete(vehicle.licensePlateNumber)}
+                                        className="bg-red-500 text-white p-2 rounded-lg"
+                                    >
+                                        <Trash2/>
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
 
                     </tbody>
                 </table>
