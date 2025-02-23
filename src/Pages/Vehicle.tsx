@@ -4,6 +4,9 @@ import {StaffModel} from "../model/StaffModel.ts";
 import {closeModal, openModal} from "../reducers/ModelSlice.ts";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../store/Store.ts";
+import {saveCrop} from "../reducers/CropSlice.ts";
+import {VehicleModel} from "../model/VehicleModel.ts";
+import {saveVehicle} from "../reducers/VehicleSlice.ts";
 
 export function Vehicle() {
     const dispatch = useDispatch<AppDispatch>();
@@ -18,6 +21,39 @@ export function Vehicle() {
     const [staffName, setStaffName] = useState("");
 
     const [isEditing, setIsEditing] = useState(false);
+
+    const handleAdd = () => {
+        if (!licensePlateNumber || !vehicleCategory || !fuelType ) {
+            alert("All fields are required!")
+            return
+        }
+        const newVehicle = new VehicleModel(licensePlateNumber,vehicleCategory,fuelType,Status,remarks,staffName);
+        dispatch(saveVehicle(newVehicle));
+        alert("Vehicle added successfully!");
+        resetForm();
+        dispatch(closeModal());
+    }
+    const handleUpdate= () =>{
+        if (!licensePlateNumber || !vehicleCategory || !fuelType ) {
+            alert("All fields are required!")
+            return
+        }
+    }
+    const handleDelete= (licensePlateNumber :string) =>{
+        if (window.confirm("Are you sure you want to delete this Vehicle?")) {
+
+            console.log("vehicle deleted!", licensePlateNumber);
+        }
+    }
+    const resetForm = () => {
+        setLicensePlateNumber("")
+        setVehicleCategory("")
+        setFuelType("")
+        setStatus("")
+        setRemarks("")
+        setStaffName("")
+        setIsEditing(false)
+    }
 
 
     const handleAddVehicle = () => {
@@ -187,7 +223,7 @@ export function Vehicle() {
                         </select>
                     </div>
 
-                    {/*<div className="flex justify-end">
+                    <div className="flex justify-end">
                         {isEditing ? (
                             <button
                                 onClick={handleUpdate}
@@ -209,7 +245,7 @@ export function Vehicle() {
                                 Cancel
                             </button>
                         )}
-                    </div>*/}
+                    </div>
 
                 </form>
             </Modal>
