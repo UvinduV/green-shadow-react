@@ -1,8 +1,6 @@
 import {StaffModel} from "../model/StaffModel.ts";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
-import {FieldModel} from "../model/FieldModel.ts";
-import {deletedField, getFieldNames} from "./FieldSlice.ts";
 
 const initialState : StaffModel[]=[]
 
@@ -75,7 +73,6 @@ export const getStaffNames = createAsyncThunk(
 );
 
 
-
 const StaffSlice = createSlice({
     name:"staff",
     initialState:initialState,
@@ -125,10 +122,10 @@ const StaffSlice = createSlice({
                     (staff: StaffModel) => staff.firstName !== action.payload.firstName
                 );
             })
-            .addCase(deletedField.rejected, (state, action) => {
+            .addCase(deletedStaff.rejected, (state, action) => {
                 console.error("Failed to delete Staff!", action.payload);
             })
-            .addCase(deletedField.pending, (state, action) => {
+            .addCase(deletedStaff.pending, (state, action) => {
                 console.error("Pending");
             });
         builder

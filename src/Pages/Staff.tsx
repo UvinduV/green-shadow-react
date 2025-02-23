@@ -1,14 +1,13 @@
 import {Modal} from "../component/Model.tsx";
 import {FieldModel} from "../model/FieldModel.ts";
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {closeModal, openModal} from "../reducers/ModelSlice.ts";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../store/Store.ts";
 import {Trash2} from "react-feather";
 import {StaffModel} from "../model/StaffModel.ts";
-import {getAllStaff, saveStaff, updatedStaff} from "../reducers/StaffSlice.ts";
+import {deletedStaff, getAllStaff, saveStaff, updatedStaff} from "../reducers/StaffSlice.ts";
 import {getFieldNames} from "../reducers/FieldSlice.ts";
-import {deletedCrop} from "../reducers/CropSlice.ts";
 
 export function Staff() {
     const dispatch = useDispatch<AppDispatch>();
@@ -63,7 +62,7 @@ export function Staff() {
     }
     const handleDelete = (firstName: string) => {
         if (window.confirm("Are you sure you want to delete this staff member?")) {
-            dispatch(deletedCrop(firstName))
+            dispatch(deletedStaff(firstName))
             console.log("staff deleted!", firstName);
             dispatch(getAllStaff());
         }
