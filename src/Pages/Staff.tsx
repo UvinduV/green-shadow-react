@@ -150,6 +150,9 @@ export function Staff() {
                             Email
                         </th>
                         <th scope="col" className="px-6 py-3">
+                            Assign Field
+                        </th>
+                        <th scope="col" className="px-6 py-3">
                             Actions
                         </th>
                     </tr>
@@ -175,6 +178,7 @@ export function Staff() {
                                 <td className="px-4 py-2">{staff.address}</td>
                                 <td className="px-4 py-2">{staff.contactNo}</td>
                                 <td className="px-4 py-2">{staff.email}</td>
+                                <td className="px-4 py-2">{staff.fieldId}</td>
                                 <td className="border px-4 py-2 text-center">
                                     <button
                                         onClick={() => handleDelete(staff.firstName)}

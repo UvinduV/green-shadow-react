@@ -14,6 +14,11 @@ export const saveStaff = createAsyncThunk(
     "staff/saveStaff",
     async (staff: StaffModel) => {
         try {
+            const responseFieldId = await api.get(`/Field/searchFieldId/${staff.fieldName}`);
+            const fieldId= responseFieldId.data;
+
+            staff.fieldName = fieldId;
+
             const response = await api.post("/Staff/add", staff);
             return response.data;
         } catch (error) {
@@ -35,6 +40,10 @@ export const updatedStaff = createAsyncThunk(
     "staff/updatedStaff",
     async (payload: { firstName: string; staff: StaffModel }) => {
         try {
+            const responseFieldId = await api.get(`/Field/searchFieldId/${payload.staff.fieldName}`);
+            const fieldId= responseFieldId.data;
+
+            payload.staff.fieldName = fieldId;
             const response = await api.put(`/Staff/update/${payload.firstName}`, payload.staff);
             return response.data;
         } catch (error) {
