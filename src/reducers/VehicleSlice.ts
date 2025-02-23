@@ -1,7 +1,6 @@
 import {VehicleModel} from "../model/VehicleModel.ts";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
-import {updatedStaff} from "./StaffSlice.ts";
 
 const initialState : VehicleModel[]=[]
 
@@ -44,6 +43,17 @@ export const updatedVehicle = createAsyncThunk(
 
             payload.vehicle.staffName = staffId;
             const response = await api.put(`/Vehicle/update/${payload.licensePlateNumber}`, payload.vehicle);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+);
+export const deletedVehicle = createAsyncThunk(
+    "vehicle/deletedVehicle",
+    async (licensePlateNumber: string) => {
+        try {
+            const response = await api.delete(`/Vehicle/delete/${licensePlateNumber}`);
             return response.data;
         } catch (error) {
             console.log(error);
@@ -93,6 +103,18 @@ const VehicleSlice = createSlice({
                 console.error("Failed to update vehicle!", action.payload);
             })
             .addCase(updatedVehicle.pending, (state, action) => {
+                console.error("Pending");
+            });
+        builder
+            .addCase(deletedVehicle.fulfilled, (state, action) => {
+                return state.filter(
+                    (vehicle: VehicleModel) => vehicle.licensePlateNumber !== action.payload.licensePlateNumber
+                );
+            })
+            .addCase(deletedVehicle.rejected, (state, action) => {
+                console.error("Failed to delete Vehicle!", action.payload);
+            })
+            .addCase(deletedVehicle.pending, (state, action) => {
                 console.error("Pending");
             });
     }

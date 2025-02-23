@@ -5,12 +5,9 @@ import {useEffect, useState} from "react";
 import {CropModel} from "../model/CropModel.ts";
 import { Trash2,Plus } from "react-feather";
 import {
-    addCrop,
-    deleteCrop,
     deletedCrop,
     getAllCrops,
     saveCrop,
-    updateCrop,
     updatedCrop
 } from "../reducers/CropSlice.ts";
 import {AppDispatch} from "../store/Store.ts";

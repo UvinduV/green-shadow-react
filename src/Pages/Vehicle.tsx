@@ -5,10 +5,9 @@ import {closeModal, openModal} from "../reducers/ModelSlice.ts";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../store/Store.ts";
 import {VehicleModel} from "../model/VehicleModel.ts";
-import {getAllVehicle, saveVehicle, updatedVehicle} from "../reducers/VehicleSlice.ts";
+import {deletedVehicle, getAllVehicle, saveVehicle, updatedVehicle} from "../reducers/VehicleSlice.ts";
 import {Trash2} from "react-feather";
-import {getAllStaff, getStaffNames} from "../reducers/StaffSlice.ts";
-import {getFieldNames} from "../reducers/FieldSlice.ts";
+import {getStaffNames} from "../reducers/StaffSlice.ts";
 
 export function Vehicle() {
     const dispatch = useDispatch<AppDispatch>();
@@ -57,8 +56,9 @@ export function Vehicle() {
     }
     const handleDelete= (licensePlateNumber :string) =>{
         if (window.confirm("Are you sure you want to delete this Vehicle?")) {
-
+            dispatch(deletedVehicle(licensePlateNumber));
             console.log("vehicle deleted!", licensePlateNumber);
+            dispatch(getAllVehicle());
         }
     }
     const handleEdit = (vehicle: VehicleModel) => {
