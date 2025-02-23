@@ -1,5 +1,6 @@
 import {Link, useNavigate} from "react-router";
 import "./Navigation.css";
+import {LogOut} from "react-feather";
 
 
 export function Navigation() {
@@ -24,7 +25,7 @@ export function Navigation() {
                     </div>
 
                     <button onClick={handleNavigate} className="bg-red-500 shadow-xl rounded-bl-3xl rounded-tr-3xl hover:bg-gray-600">
-                        Sign Out
+                        <LogOut/>
                     </button>
 
                 </nav>

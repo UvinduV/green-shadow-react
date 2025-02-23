@@ -2,7 +2,7 @@ import {Modal} from "../component/Model.tsx";
 import React, {useEffect, useState} from "react";
 import {closeModal, openModal} from "../reducers/ModelSlice.ts";
 import {useDispatch, useSelector} from "react-redux";
-import {Trash2} from "react-feather";
+import {Trash2,Plus} from "react-feather";
 import {FieldModel} from "../model/FieldModel.ts";
 import {deletedField, getAllFields, saveField, updatedField} from "../reducers/FieldSlice.ts";
 import {AppDispatch} from "../store/Store.ts";
@@ -106,7 +106,9 @@ export function Field() {
         <>
             <h1>Field</h1>
             <div className="flex justify-end mt-4 mr-56">
-                <button onClick={handleAddField}>New Field</button>
+                <button onClick={handleAddField} className="flex items-center">
+                    <Plus size={20}/>New Field
+                </button>
             </div>
 
             {/* Field Table */}
