@@ -14,10 +14,24 @@ export const saveStaff = createAsyncThunk(
         try {
             const responseFieldId = await api.get(`/Field/searchFieldId/${staff.fieldName}`);
             const fieldId= responseFieldId.data;
+            console.log("field id for staff:",fieldId)
 
-            staff.fieldName = fieldId;
+            // staff.fieldName = fieldId;
+            const staffData={
+                "firstName": staff.firstName,
+                "lastName": staff.lastName,
+                "designation": staff.designation,
+                "gender": staff.gender,
+                "joinedDate": staff.joinedDate,
+                "dob": staff.dob,
+                "address": staff.address,
+                "contactNo": staff.contactNo,
+                "email": staff.email,
+                "role": staff.role,
+                "fieldId": fieldId,
+            }
 
-            const response = await api.post("/Staff/add", staff);
+            const response = await api.post("/Staff/add", staffData);
             return response.data;
         } catch (error) {
             console.log(error);
