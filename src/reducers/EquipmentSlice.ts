@@ -37,6 +37,17 @@ export const getAllEquipment = createAsyncThunk(
         }
     }
 );
+export const deletedEquipment = createAsyncThunk(
+    "equipment/deletedEquipment",
+    async (name: string) => {
+        try {
+            const response = await api.delete(`/Equipment/delete/${name}`);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+);
 
 
 const EquipmentSlice = createSlice({
@@ -65,6 +76,18 @@ const EquipmentSlice = createSlice({
                 console.error("Failed to load equip data", action.payload);
             })
             .addCase(getAllEquipment.pending, (state, action) => {
+                console.error("Pending");
+            });
+        builder
+            .addCase(deletedEquipment.fulfilled, (state, action) => {
+                return state.filter(
+                    (equipment: EquipmentModel) => equipment.name !== action.payload.name
+                );
+            })
+            .addCase(deletedEquipment.rejected, (state, action) => {
+                console.error("Failed to delete equipment!", action.payload);
+            })
+            .addCase(deletedEquipment.pending, (state, action) => {
                 console.error("Pending");
             });
     }

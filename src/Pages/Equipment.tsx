@@ -6,10 +6,9 @@ import {closeModal, openModal} from "../reducers/ModelSlice.ts";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../store/Store.ts";
 import {EquipmentModel} from "../model/EquipmentModel.ts";
-import {getAllEquipment, saveEquipment} from "../reducers/EquipmentSlice.ts";
+import {deletedEquipment, getAllEquipment, saveEquipment} from "../reducers/EquipmentSlice.ts";
 import {getStaffNames} from "../reducers/StaffSlice.ts";
 import {getFieldNames} from "../reducers/FieldSlice.ts";
-import {VehicleModel} from "../model/VehicleModel.ts";
 import {Trash2} from "react-feather";
 
 export function Equipment(){
@@ -44,6 +43,7 @@ export function Equipment(){
         alert("Equipment added successfully!");
         resetForm();
         dispatch(closeModal());
+        dispatch(getAllEquipment());
     }
     const handleUpdate= () =>{
         if (!name || !type || !staffId ) {
@@ -54,6 +54,25 @@ export function Equipment(){
         alert("Equipment updated successfully!")
         resetForm();
         dispatch(closeModal());
+        dispatch(getAllEquipment());
+    }
+    const handleDelete= (name :string) =>{
+        if (window.confirm("Are you sure you want to delete this Vehicle?")) {
+            dispatch(deletedEquipment(name));
+            console.log("Equipment deleted!", name);
+            dispatch(getAllEquipment());
+        }
+    }
+    const handleEdit = (equipment: EquipmentModel) => {
+        dispatch(openModal());
+
+        setName(equipment.name);
+        setType(equipment.type);
+        setStatus(equipment.status);
+        setRemarks(equipment.remarks);
+        setStaffId(equipment.staffId);
+        setFieldId(equipment.fieldId);
+        setIsEditing(true);
     }
     const resetForm = () => {
         setName("")
