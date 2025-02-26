@@ -1,21 +1,35 @@
 import {useState} from "react";
 import {useNavigate} from "react-router";
+import {UserModel} from "../model/UserModel.ts";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../store/Store.ts";
+import {registerUser} from "../reducers/UserSlice.ts";
+
 
 export function Register(){
     const navigate = useNavigate();
+    const dispatch = useDispatch<AppDispatch>();
+
     const [name, setName] = useState("");
-    const [role, setRole] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
 
-    function handleRegister(){
-        navigate("/");
-
+    const handleRegister = () => {
+        const user: UserModel = {email:email,password:password};
+        dispatch(registerUser(user));
+        resetForm()
+        navigate("/")
     }
-    function getLogin(){
-        navigate("/");
-
+    const getLogin = () => {
+        navigate("/")
     }
+    const resetForm = () =>{
+        setName("");
+        setEmail("");
+        setPassword("");
+    }
+
 
     return (
         <>
@@ -39,28 +53,10 @@ export function Register(){
                                     <input type="text" name="name" id="name"
                                            value={name}
                                            onChange={(e) => setName(e.target.value)}
-                                           className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
+                                           className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2 "
                                            placeholder="" required
 
                                     />
-                                </div>
-                                <div className="flex gap-4 mb-4">
-                                    <label>Job Role :</label>
-                                    <select
-                                        name="role"
-                                        value={role}
-                                        onChange={(e) => setRole(e.target.value)}
-                                        id=""
-                                        className="border p-1 rounded"
-                                    >
-                                        <option value="">Select Role</option>
-                                        <option value="MANAGER">Manager</option>
-                                        <option value="ADMINISTRATIVE">Admin</option>
-                                        <option value="SCIENTIST">Scientist</option>
-                                        <option value="DRIVER">Driver</option>
-                                        <option value="OTHER">Other</option>
-
-                                    </select>
                                 </div>
                                 <div>
                                     <label htmlFor="email"
@@ -70,7 +66,7 @@ export function Register(){
                                     <input type="email" name="email" id="email"
                                            value={email}
                                            onChange={(e) => setEmail(e.target.value)}
-                                           className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
+                                           className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2 "
                                            placeholder="" required
 
                                     />
@@ -83,7 +79,19 @@ export function Register(){
                                     <input type="password" name="password" id="password" placeholder="••••••••"
                                            value={password}
                                            onChange={(e) => setPassword(e.target.value)}
-                                           className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
+                                           className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2 "
+                                           required
+                                    />
+                                </div>
+                                <div>
+                                    <label htmlFor="confirmPassword"
+                                           className="block mb-2 text-sm font-medium text-gray-900 ">
+                                        Confirm Password
+                                    </label>
+                                    <input type="password" name="confirmPassword" id="confirmPassword" placeholder="••••••••"
+                                           value={confirmPassword}
+                                           onChange={(e) => setConfirmPassword(e.target.value)}
+                                           className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2 "
                                            required
                                     />
                                 </div>

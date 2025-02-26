@@ -32,46 +32,6 @@ export function MonitoringLog() {
                     </thead>
                     <tbody className="bg-slate-100 cursor-pointer">
                     <tr className="hover:bg-slate-200 border-b border-gray-950 font-bold">
-                        <td className="px-6 py-4">1</td>
-                        <td className="px-6 py-4">2024.09.19</td>
-                        <td className="px-6 py-4">observation 01</td>
-                        <td className="px-6 py-4"></td>
-                        <td className="px-6 py-4">
-                            <a
-                                href="#"
-                                className="font-medium text-blue-600 hover:underline"
-                            >
-                                Edit
-                            </a>
-                            <a
-                                href="#"
-                                className="font-medium text-red-600 hover:underline ml-2"
-                            >
-                                Delete
-                            </a>
-                        </td>
-                    </tr>
-                    <tr className="hover:bg-slate-200 border-b border-gray-950 font-bold">
-                        <td className="px-6 py-4">2</td>
-                        <td className="px-6 py-4">2024.10.20</td>
-                        <td className="px-6 py-4">observation 02</td>
-                        <td className="px-6 py-4"></td>
-                        <td className="px-6 py-4">
-                            <a
-                                href="#"
-                                className="font-medium text-blue-600 hover:underline"
-                            >
-                                Edit
-                            </a>
-                            <a
-                                href="#"
-                                className="font-medium text-red-600 hover:underline ml-2"
-                            >
-                                Delete
-                            </a>
-                        </td>
-                    </tr>
-                    <tr className="hover:bg-slate-200 border-b border-gray-950 font-bold">
                         <td className="px-6 py-4">3</td>
                         <td className="px-6 py-4">2024.11.21</td>
                         <td className="px-6 py-4">observation 03</td>

@@ -1,12 +1,13 @@
 import {FieldModel} from "../model/FieldModel.ts";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import axios from "axios";
+import {api} from "../services/apiServices.ts";
+// import axios from "axios";
 
 const initialState : FieldModel[]=[]
 
-const api = axios.create({
-    baseURL : "http://localhost:3002"
-})
+// const api = axios.create({
+//     baseURL : "http://localhost:3002"
+// })
 
 export const saveField = createAsyncThunk(
     'field/saveField',
@@ -37,7 +38,7 @@ export const saveField = createAsyncThunk(
 export const getAllFields = createAsyncThunk(
     "field/getAllFields", async () => {
     try {
-        const response = await api.get("/Field/view");
+        const response = await api.get("/Field/view",{withCredentials: true});
         return response.data;
     } catch (error) {
         console.log(error);
@@ -84,7 +85,7 @@ export const getFieldNames = createAsyncThunk(
     "field/getFieldNames",
     async () => {
         try {
-            const response = await api.get("/Field/fieldNames");
+            const response = await api.get("/Field/fieldNames",{withCredentials: true});
             return response.data;
         } catch (error) {
             console.log(error);

@@ -1,19 +1,40 @@
 import {useNavigate} from "react-router";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch} from "../store/Store.ts";
+import {UserModel} from "../model/UserModel.ts";
+import {loginUser} from "../reducers/UserSlice.ts";
 
 
 export function Login() {
     const navigate = useNavigate();
+    const dispatch = useDispatch<AppDispatch>();
+    const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    function goDashboard(){
-        navigate('/dashboard');
+
+    const handleLogin = () =>{
+        const user: UserModel = {email:email,password:password};
+        dispatch(loginUser(user));
+        alert("Login successfully!");
+        resetForm();
+        // navigate('/dashboard');
     }
-    function getRegister(){
+    const getRegister = () =>{
         navigate('/register');
     }
+    const resetForm = () =>{
+        setEmail("");
+        setPassword("");
+    }
+    useEffect(() => {
+        if(isAuthenticated){
+            navigate('/dashboard');
+        }
+    }, [isAuthenticated]);
+
     return (
         <>
             <section>
@@ -69,7 +90,7 @@ export function Login() {
                                         password?
                                     </a>
                                 </div>
-                                <button onClick={goDashboard} type="submit"
+                                <button onClick={handleLogin} type="submit"
                                         className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center rounded-bl-3xl rounded-tr-3xl">
                                     Sign in
                                 </button>
