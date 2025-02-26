@@ -1,18 +1,23 @@
 import {Modal} from "../component/Model.tsx";
 import {StaffModel} from "../model/StaffModel.ts";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {FieldModel} from "../model/FieldModel.ts";
 import {closeModal, openModal} from "../reducers/ModelSlice.ts";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../store/Store.ts";
 import {EquipmentModel} from "../model/EquipmentModel.ts";
-import {saveEquipment} from "../reducers/EquipmentSlice.ts";
+import {getAllEquipment, saveEquipment} from "../reducers/EquipmentSlice.ts";
+import {getStaffNames} from "../reducers/StaffSlice.ts";
+import {getFieldNames} from "../reducers/FieldSlice.ts";
+import {VehicleModel} from "../model/VehicleModel.ts";
+import {Trash2} from "react-feather";
 
 export function Equipment(){
     const dispatch = useDispatch<AppDispatch>();
     const isModalOpen = useSelector((state) => state.modal.isModalOpen);
     const staffNames = useSelector((state) => state.staff);
     const fieldNames = useSelector((state) => state.field);
+    const equipments = useSelector((state) => state.equipment);
 
     const [name, setName] = useState("");
     const [type, setType] = useState("");
@@ -22,6 +27,12 @@ export function Equipment(){
     const [fieldId, setFieldId] = useState("");
 
     const [isEditing, setIsEditing] = useState(false);
+
+    useEffect(() => {
+        dispatch(getAllEquipment());
+        dispatch(getStaffNames());
+        dispatch(getFieldNames())
+    }, [dispatch]);
 
     const handleAdd = () => {
         if (!name || !type || !staffId ) {
@@ -100,27 +111,32 @@ export function Equipment(){
                     </thead>
                     <tbody className="bg-slate-100 cursor-pointer">
 
-                    <tr className="hover:bg-slate-200 border-b border-gray-950 font-bold">
-                        <td className="px-6 py-4">3</td>
-                        <td className="px-6 py-4">Harrow</td>
-                        <td className="px-6 py-4">Mechanical</td>
-                        <td className="px-6 py-4">Available</td>
-                        <td className="px-6 py-4">Kamal</td>
-                        <td className="px-6 py-4">
-                            <a
-                                href="#"
-                                className="font-medium text-blue-600 hover:underline"
+                    {equipments
+                        .filter((equipment: EquipmentModel) => equipment && equipment.name)
+                        .filter(
+                            (equipment: EquipmentModel, index, self) =>
+                                index === self.findIndex((e: EquipmentModel) => e.name === equipment.name)
+                        )
+                        .map((equipment: EquipmentModel) => (
+                            <tr
+                                key={equipment.name}
+                                onClick={() => handleEdit(equipment)}
+                                className="hover:cursor-pointer hover:bg-yellow-500 hover:text-white"
                             >
-                                Edit
-                            </a>
-                            <a
-                                href="#"
-                                className="font-medium text-red-600 hover:underline ml-2"
-                            >
-                                Delete
-                            </a>
-                        </td>
-                    </tr>
+                                <td className="px-4 py-2">{equipment.name}</td>
+                                <td className="px-4 py-2">{equipment.type}</td>
+                                <td className="px-4 py-2">{equipment.status}</td>
+                                <td className="px-4 py-2">{equipment.staffId}</td>
+                                <td className="border px-4 py-2 text-center">
+                                    <button
+                                        onClick={() => handleDelete(equipment.name)}
+                                        className="bg-red-500 text-white p-2 rounded-lg"
+                                    >
+                                        <Trash2/>
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>

@@ -27,6 +27,17 @@ export const saveEquipment = createAsyncThunk(
         }
     }
 );
+export const getAllEquipment = createAsyncThunk(
+    "equipment/getAllEquipment", async () => {
+        try {
+            const response = await api.get("/Equipment/view");
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+);
+
 
 const EquipmentSlice = createSlice({
     name:"equipment",
@@ -42,6 +53,18 @@ const EquipmentSlice = createSlice({
                 console.error("Failed to save equipment!", action.payload);
             })
             .addCase(saveEquipment.pending, (state, action) => {
+                console.error("Pending");
+            });
+        builder
+            .addCase(getAllEquipment.fulfilled, (state, action) => {
+                action.payload.map((equipment: EquipmentModel) => {
+                    state.push(equipment);
+                });
+            })
+            .addCase(getAllEquipment.rejected, (state, action) => {
+                console.error("Failed to load equip data", action.payload);
+            })
+            .addCase(getAllEquipment.pending, (state, action) => {
                 console.error("Pending");
             });
     }
