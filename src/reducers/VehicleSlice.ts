@@ -15,9 +15,16 @@ export const saveVehicle = createAsyncThunk(
             const responseStaffId = await api.get(`/Staff/searchStaffId/${vehicle.staffName}`);
             const staffId= responseStaffId.data;
 
-            vehicle.staffName = staffId;
+            const vehicleData ={
+                "licensePlateNumber":vehicle.licensePlateNumber,
+                "vehicleCategory":vehicle.vehicleCategory,
+                "fuelType":vehicle.fuelType,
+                "Status":vehicle.Status,
+                "remarks":vehicle.remarks,
+                "staffId": staffId
+            }
 
-            const response = await api.post("/Vehicle/add", vehicle);
+            const response = await api.post("/Vehicle/add", vehicleData);
             return response.data;
         } catch (error) {
             console.log(error);
@@ -41,8 +48,16 @@ export const updatedVehicle = createAsyncThunk(
             const responseStaffId = await api.get(`/Staff/searchStaffId/${payload.vehicle.staffName}`);
             const staffId= responseStaffId.data;
 
-            payload.vehicle.staffName = staffId;
-            const response = await api.put(`/Vehicle/update/${payload.licensePlateNumber}`, payload.vehicle);
+            const vehicleData ={
+                "licensePlateNumber":payload.vehicle.licensePlateNumber,
+                "vehicleCategory":payload.vehicle.vehicleCategory,
+                "fuelType":payload.vehicle.fuelType,
+                "Status":payload.vehicle.Status,
+                "remarks":payload.vehicle.remarks,
+                "staffId": staffId
+            }
+
+            const response = await api.put(`/Vehicle/update/${payload.licensePlateNumber}`, vehicleData);
             return response.data;
         } catch (error) {
             console.log(error);
