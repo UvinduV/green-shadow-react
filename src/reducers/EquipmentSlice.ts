@@ -16,6 +16,7 @@ export const saveEquipment = createAsyncThunk(
             const staffId= responseStaffId.data;
             const responseFieldId = await api.get(`/Field/searchFieldId/${equipment.fieldId}`);
             const fieldId= responseFieldId.data;
+            console.log("staffId:", staffId, "fieldId:", fieldId);
 
             equipment.staffId=staffId;
             equipment.fieldId=fieldId;
@@ -31,6 +32,25 @@ export const getAllEquipment = createAsyncThunk(
     "equipment/getAllEquipment", async () => {
         try {
             const response = await api.get("/Equipment/view");
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+);
+export const updatedEquipment = createAsyncThunk(
+    "equipment/updatedEquipment",
+    async (payload: { name: string; equipment: EquipmentModel }) => {
+        try {
+            const responseStaffId = await api.get(`/Staff/searchStaffId/${payload.equipment.staffId}`);
+            const staffId= responseStaffId.data;
+            const responseFieldId = await api.get(`/Field/searchFieldId/${payload.equipment.fieldId}`);
+            const fieldId= responseFieldId.data;
+
+            payload.equipment.staffId = staffId;
+            payload.equipment.fieldId=fieldId;
+
+            const response = await api.put(`/Equipment/update/${payload.name}`, payload.equipment);
             return response.data;
         } catch (error) {
             console.log(error);
@@ -76,6 +96,21 @@ const EquipmentSlice = createSlice({
                 console.error("Failed to load equip data", action.payload);
             })
             .addCase(getAllEquipment.pending, (state, action) => {
+                console.error("Pending");
+            });
+        builder
+            .addCase(updatedEquipment.fulfilled, (state, action) => {
+                const index = state.findIndex(
+                    (equipment) => equipment.name === action.payload.name
+                );
+                if (index !== -1) {
+                    state[index] = action.payload;
+                }
+            })
+            .addCase(updatedEquipment.rejected, (state, action) => {
+                console.error("Failed to update equipment!", action.payload);
+            })
+            .addCase(updatedEquipment.pending, (state, action) => {
                 console.error("Pending");
             });
         builder

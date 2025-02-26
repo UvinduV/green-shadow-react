@@ -6,7 +6,7 @@ import {closeModal, openModal} from "../reducers/ModelSlice.ts";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../store/Store.ts";
 import {EquipmentModel} from "../model/EquipmentModel.ts";
-import {deletedEquipment, getAllEquipment, saveEquipment} from "../reducers/EquipmentSlice.ts";
+import {deletedEquipment, getAllEquipment, saveEquipment, updatedEquipment} from "../reducers/EquipmentSlice.ts";
 import {getStaffNames} from "../reducers/StaffSlice.ts";
 import {getFieldNames} from "../reducers/FieldSlice.ts";
 import {Trash2} from "react-feather";
@@ -50,6 +50,8 @@ export function Equipment(){
             alert("All fields are required!")
             return
         }
+        const equipment = new EquipmentModel(name,type,status,remarks,staffId,fieldId)
+        dispatch(updatedEquipment({name:equipment.name,equipment}))
 
         alert("Equipment updated successfully!")
         resetForm();
