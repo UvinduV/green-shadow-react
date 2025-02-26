@@ -9,12 +9,17 @@ import {Vehicle} from "./Pages/Vehicle.tsx";
 import {Equipment} from "./Pages/Equipment.tsx";
 import {MonitoringLog} from "./Pages/MonitoringLog.tsx";
 import {Login} from "./Pages/Login.tsx";
+import {Register} from "./Pages/register.tsx";
 
 function App() {
     const routes= createBrowserRouter([
         {
             path:'/',
             element:<Login/>
+        },
+        {
+            path:'/register',
+            element:<Register/>
         },
         {
             path:'',
