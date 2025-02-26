@@ -56,7 +56,21 @@ export const updatedStaff = createAsyncThunk(
             const fieldId= responseFieldId.data;
 
             payload.staff.fieldName = fieldId;
-            const response = await api.put(`/Staff/update/${payload.firstName}`, payload.staff);
+            const staffData={
+                "firstName": payload.staff.firstName,
+                "lastName": payload.staff.lastName,
+                "designation": payload.staff.designation,
+                "gender": payload.staff.gender,
+                "joinedDate": payload.staff.joinedDate,
+                "dob": payload.staff.dob,
+                "address": payload.staff.address,
+                "contactNo": payload.staff.contactNo,
+                "email": payload.staff.email,
+                "role": payload.staff.role,
+                "fieldId": fieldId,
+            }
+
+            const response = await api.put(`/Staff/update/${payload.firstName}`, staffData);
             return response.data;
         } catch (error) {
             console.log(error);

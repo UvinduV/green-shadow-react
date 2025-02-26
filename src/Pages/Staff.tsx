@@ -32,7 +32,7 @@ export function Staff() {
     useEffect(() => {
         dispatch(getAllStaff());
         dispatch(getFieldNames());
-    }, [dispatch, fieldNames, staff]);
+    }, [dispatch]);
 
 
     const handleAdd = () => {
@@ -228,6 +228,7 @@ export function Staff() {
                             id=""
                             className="border p-1 rounded"
                         >
+                            <option value="">Select Gender</option>
                             <option value="MALE">Male</option>
                             <option value="FEMALE">Female</option>
 

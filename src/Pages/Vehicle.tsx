@@ -27,7 +27,7 @@ export function Vehicle() {
     useEffect(() => {
         dispatch(getAllVehicle());
         dispatch(getStaffNames());
-    }, [dispatch, staffNames, vehicles]);
+    }, [dispatch]);
 
     const handleAdd = () => {
         if (!licensePlateNumber || !vehicleCategory || !fuelType ) {

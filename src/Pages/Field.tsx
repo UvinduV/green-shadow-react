@@ -24,7 +24,7 @@ export function Field() {
 
     useEffect(() => {
         dispatch(getAllFields());
-    }, [dispatch,fields]);
+    }, [dispatch]);
 
     const handleAdd = () => {
         if (!fieldName || !location) {
@@ -52,9 +52,6 @@ export function Field() {
         resetForm();
         dispatch(closeModal());
         dispatch(getAllFields());
-
-        // resetForm();
-        // dispatch(closeModal());
 
 
     }

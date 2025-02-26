@@ -34,7 +34,7 @@ export function Crop() {
     useEffect(() => {
         dispatch(getAllCrops());
         dispatch(getFieldNames());
-    }, [dispatch, fieldNames, crops]);
+    }, [dispatch]);
 
     const handleAdd = () => {
         if (!commonName || !scientificName) {
