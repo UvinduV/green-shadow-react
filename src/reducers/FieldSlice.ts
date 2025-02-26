@@ -38,7 +38,7 @@ export const saveField = createAsyncThunk(
 export const getAllFields = createAsyncThunk(
     "field/getAllFields", async () => {
     try {
-        const response = await api.get("/Field/view",{withCredentials: true});
+        const response = await api.get("/Field/view");
         return response.data;
     } catch (error) {
         console.log(error);
@@ -85,7 +85,7 @@ export const getFieldNames = createAsyncThunk(
     "field/getFieldNames",
     async () => {
         try {
-            const response = await api.get("/Field/fieldNames",{withCredentials: true});
+            const response = await api.get("/Field/fieldNames");
             return response.data;
         } catch (error) {
             console.log(error);

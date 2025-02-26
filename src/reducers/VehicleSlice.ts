@@ -1,12 +1,13 @@
 import {VehicleModel} from "../model/VehicleModel.ts";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import axios from "axios";
+import {api} from "../services/apiServices.ts";
+// import axios from "axios";
 
 const initialState : VehicleModel[]=[]
 
-const api = axios.create({
-    baseURL : "http://localhost:3002"
-})
+// const api = axios.create({
+//     baseURL : "http://localhost:3002"
+// })
 
 export const saveVehicle = createAsyncThunk(
     "vehicle/saveVehicle",
