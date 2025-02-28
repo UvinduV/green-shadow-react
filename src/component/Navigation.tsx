@@ -1,13 +1,19 @@
 import {Link, useNavigate} from "react-router";
 import "./Navigation.css";
 import {LogOut} from "react-feather";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../store/Store.ts";
+import {logOutUser} from "../reducers/UserSlice.ts";
 
 
 export function Navigation() {
-    function handleNavigate() {
-        navigate("/")
-    }
+    const dispatch = useDispatch<AppDispatch>()
     const navigate = useNavigate();
+    function handleNavigate() {
+        dispatch(logOutUser());
+        navigate('/')
+    }
+
     return (
         <>
             <header className="header-main">
